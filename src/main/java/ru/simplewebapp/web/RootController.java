@@ -37,14 +37,13 @@ public class RootController {
                           @RequestParam(name = "pin") int pin,
                           @RequestParam(name = "card") long cardNumber) {
 
-        Account account = service.getAccount(cardNumber);
+        Account account = service.checkAndGetAccount(cardNumber, pin);
 
-        if (account.getAttempt() < 3) {
-            if (pin == account.getPinCode()) {
-                account.dropAttempts();
-                return "operations";
-            }
-            account.incrementAttempt();
+        if (account.getAttempt() == 0) {
+            account.dropAttempts();
+            return "operations";
+        }
+        if (account.getAttempt() < 4) {
             model.addAttribute("card", cardNumber);
             model.addAttribute("message", "incorrect pin code.");
             return "card";
