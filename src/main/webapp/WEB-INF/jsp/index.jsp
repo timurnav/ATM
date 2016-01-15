@@ -10,8 +10,8 @@
 <body>
 <section>
     <form method="post" action="/cards">
-        <input type=text pattern="[0-9]{13,16}">
-        <button type="submit">Выбрать</button>
+        <input name="card" type=text pattern="[0-9]{16}">
+        <button type="submit">OK</button>
     </form>
 </section>
 </body>
