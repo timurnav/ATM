@@ -32,6 +32,30 @@ public class RootController {
         return "failed";
     }
 
+    @RequestMapping(value = "/balance", method = RequestMethod.POST)
+    public String balance(Model model,
+                        @RequestParam(name = "card") long cardNumber) {
+
+        model.addAttribute("card", cardNumber);
+        return "balance";
+    }
+
+    @RequestMapping(value = "/withdraw", method = RequestMethod.POST)
+    public String withdraw(Model model,
+                          @RequestParam(name = "card") long cardNumber) {
+
+        model.addAttribute("card", cardNumber);
+        return "withdraw";
+    }
+
+    @RequestMapping(value = "/withdraw_result", method = RequestMethod.POST)
+    public String withdrawResult(Model model,
+                           @RequestParam(name = "card") long cardNumber) {
+
+        model.addAttribute("card", cardNumber);
+        return "withdraw_result";
+    }
+
     @RequestMapping(value = "/pin", method = RequestMethod.POST)
     public String pinCode(Model model,
                           @RequestParam(name = "pin") int pin,
@@ -46,10 +70,15 @@ public class RootController {
         if (account.getAttempt() < 4) {
             model.addAttribute("card", cardNumber);
             model.addAttribute("message", "incorrect pin code.");
-            return "card";
+            return "cards";
         }
         model.addAttribute("message", "Card is blocked");
         return "failed";
+    }
+
+    @RequestMapping(value = "/exit", method = RequestMethod.POST)
+    public String exit(Model model) {
+        return "index";
     }
 
 }

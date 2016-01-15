@@ -9,7 +9,7 @@
 </head>
 <body>
 <section>
-    <form method="post" action="/cards">
+    <form method="post" action="cards">
         <input name="card" type=text pattern="[0-9]{16}">
         <button type="submit">OK</button>
     </form>
