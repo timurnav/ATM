@@ -50,9 +50,14 @@ public class RootController {
 
     @RequestMapping(value = "/withdraw_result", method = RequestMethod.POST)
     public String withdrawResult(Model model,
-                           @RequestParam(name = "card") long cardNumber) {
+                           @RequestParam(name = "card") String cardNumber,
+                           @RequestParam(name = "sum") int sum) {
 
+        Account accoutAfterWithdraw = service.withdraw(cardNumber, sum);
+        model.addAttribute("account", accoutAfterWithdraw);
         model.addAttribute("card", cardNumber);
+        model.addAttribute("sum", sum);
+
         return "withdraw_result";
     }
 

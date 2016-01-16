@@ -28,10 +28,12 @@ public class AccountService {
     }
 
     public Account withdraw(String number, Integer sum) {
+        // TODO convert from USD to CENTS
+
         Account account = getAccountByNumber(number);
         Integer balance = account.getBalance();
         if(sum > balance) {
-            throw new WrongOperationException("Not enough money on account balance");
+            throw new WrongOperationException("Not enough money on account balance to fulfuil your request please try again with different amount");
         }
 
         // TODO add operation to operations list
