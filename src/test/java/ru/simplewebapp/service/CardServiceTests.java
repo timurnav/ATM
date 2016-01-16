@@ -66,7 +66,8 @@ public class CardServiceTests {
     @Test
     public void testWithdrawMoreThanOnBalance() throws Exception {
         thrown.expect(WrongOperationException.class);
-        service.withdraw(ACCOUNT1_NUMBER, ACCOUNT1_BALANCE + 1);
+        Account account = service.getAccountByNumber(ACCOUNT1_NUMBER);
+        service.withdraw(ACCOUNT1_NUMBER, account.getBalance() + 1);
     }
 
 
