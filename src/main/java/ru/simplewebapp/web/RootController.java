@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.simplewebapp.model.Account;
-import ru.simplewebapp.service.CardService;
+import ru.simplewebapp.service.AccountService;
 
 @Controller
 public class RootController {
 
     @Autowired
-    CardService service;
+    AccountService service;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String root() {
@@ -35,7 +35,7 @@ public class RootController {
     @RequestMapping(value = "/balance", method = RequestMethod.POST)
     public String balance(Model model,
                         @RequestParam(name = "card") String number) {
-        Account account = service.getOneByNumber(number);
+        Account account = service.getAccountByNumber(number);
         model.addAttribute("account", account);
         return "balance";
     }
