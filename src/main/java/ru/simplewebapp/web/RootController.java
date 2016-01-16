@@ -22,7 +22,7 @@ public class RootController {
 
     @RequestMapping(value = "/cards", method = RequestMethod.POST)
     public String cards(Model model,
-                        @RequestParam(name = "card") long cardNumber) {
+                        @RequestParam(name = "card") String cardNumber) {
 
         if (service.checkCardNumber(cardNumber)) {
             model.addAttribute("card", cardNumber);
@@ -34,9 +34,9 @@ public class RootController {
 
     @RequestMapping(value = "/balance", method = RequestMethod.POST)
     public String balance(Model model,
-                        @RequestParam(name = "card") long cardNumber) {
-
-        model.addAttribute("card", cardNumber);
+                        @RequestParam(name = "card") String number) {
+        Account account = service.getOneByNumber(number);
+        model.addAttribute("account", account);
         return "balance";
     }
 
@@ -58,8 +58,8 @@ public class RootController {
 
     @RequestMapping(value = "/pin", method = RequestMethod.POST)
     public String pinCode(Model model,
-                          @RequestParam(name = "pin") int pin,
-                          @RequestParam(name = "card") long cardNumber) {
+                          @RequestParam(name = "pin") String pin,
+                          @RequestParam(name = "card") String cardNumber) {
 
         Account account = service.checkAndGetAccount(cardNumber, pin);
 

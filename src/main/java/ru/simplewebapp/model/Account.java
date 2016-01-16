@@ -1,54 +1,100 @@
 package ru.simplewebapp.model;
 
-public class Account {
-    private long cardNumber;
-    private int pinCode;
-    private int amount;
-    private int attempt;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
-    public Account(long cardNumber, int pinCode, int amount, int attempt) {
-        this.cardNumber = cardNumber;
-        this.pinCode = pinCode;
+@Entity
+@Table(name = "ACCOUNTS")
+public class Account {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Integer id;
+
+    @Column(name = "number", nullable = false)
+    @NotNull
+    private String number;
+
+    @Column(name = "pin", nullable = false)
+    @NotNull
+    private String pin;
+
+    @Column(name = "amount", nullable = false)
+    @NotNull
+    private Integer amount;
+
+    @Transient
+    private Integer attempt = 0;
+
+    @Column(name = "date_time", nullable = false)
+    @NotNull
+    private LocalDateTime dateTime;
+
+    protected Account(Integer id) {
+        this.id = id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public Account(String number, String pin, int amount, int attempt) {
+        this.number = number;
+        this.pin = pin;
         this.amount = amount;
         this.attempt = attempt;
     }
 
-    public Account(long cardNumber, int pinCode) {
-        this(cardNumber, pinCode, 0, 0);
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public Account(String cardNumber, String pin) {
+        this(cardNumber, pin, 0, 0);
     }
 
     public Account() {
     }
 
-    public long getCardNumber() {
-        return cardNumber;
+    public String getNumber() {
+        return number;
     }
 
-    public void setCardNumber(long cardNumber) {
-        this.cardNumber = cardNumber;
+    public void setNumber(String number) {
+        this.number = number;
     }
 
-    public int getPinCode() {
-        return pinCode;
+    public String getPin() {
+        return pin;
     }
 
-    public void setPinCode(int pinCode) {
-        this.pinCode = pinCode;
+    public void setPin(String pin) {
+        this.pin = pin;
     }
 
-    public int getAmount() {
+    public Integer getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(Integer amount) {
         this.amount = amount;
     }
 
-    public int getAttempt() {
+    public Integer getAttempt() {
         return attempt;
     }
 
-    public void setAttempt(int attempt) {
+    public void setAttempt(Integer attempt) {
         this.attempt = attempt;
     }
 

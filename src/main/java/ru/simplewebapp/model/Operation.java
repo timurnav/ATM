@@ -3,6 +3,8 @@ package ru.simplewebapp.model;
 
 import java.time.LocalDateTime;
 
+// TODO needs to be in english
+
 /*
 * Если пользователь выбирает просмотр баланса, то в таблицу операций добавляется соответствующая запись с ID карты, временем и кодом операции.
 
