@@ -2,7 +2,7 @@
 <html>
 <head>
     <link rel='stylesheet' href='webjars/bootstrap/3.1.0/css/bootstrap.min.css'>
-    <link rel="stylesheet" href="resources/css/signin.css">
+    <link rel="stylesheet" href="resources/css/common.css">
     <title>PIN</title>
 </head>
 <body>
