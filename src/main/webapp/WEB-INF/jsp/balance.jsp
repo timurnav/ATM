@@ -11,7 +11,7 @@
 <jsp:useBean id="account" type="ru.simplewebapp.model.Account" scope="request"/>
 Your card number is ${account.number}
 Current date is ${account.dateTime}
-Your balance is ${account.amount} USD
+Your balance is ${account.balance} USD
 
 <form method="post" action="">
     <input name="card" type=hidden value="${account.number}">

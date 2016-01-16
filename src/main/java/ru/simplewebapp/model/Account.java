@@ -1,7 +1,8 @@
 package ru.simplewebapp.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -9,31 +10,43 @@ import java.time.LocalDateTime;
 public class Account {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
     private Integer id;
 
     @Column(name = "number", nullable = false)
-    @NotNull
+    @NotEmpty
     private String number;
 
     @Column(name = "pin", nullable = false)
-    @NotNull
+    @NotEmpty
     private String pin;
 
-    @Column(name = "amount", nullable = false)
-    @NotNull
-    private Integer amount;
+    @Column(name = "balance", columnDefinition = "default 0")
+    private Integer balance;
 
     @Transient
     private Integer attempt = 0;
 
     @Column(name = "date_time", nullable = false)
-    @NotNull
     private LocalDateTime dateTime;
+
+    public Account() {
+    }
 
     protected Account(Integer id) {
         this.id = id;
+    }
+
+    public Account(String cardNumber, String pin) {
+        this(cardNumber, pin, 0, 0);
+    }
+
+    public Account(String number, String pin, int balance, int attempt) {
+        this.number = number;
+        this.pin = pin;
+        this.balance = balance;
+        this.attempt = attempt;
     }
 
     public void setId(Integer id) {
@@ -44,26 +57,12 @@ public class Account {
         return id;
     }
 
-    public Account(String number, String pin, int amount, int attempt) {
-        this.number = number;
-        this.pin = pin;
-        this.amount = amount;
-        this.attempt = attempt;
-    }
-
     public LocalDateTime getDateTime() {
         return dateTime;
     }
 
     public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
-    }
-
-    public Account(String cardNumber, String pin) {
-        this(cardNumber, pin, 0, 0);
-    }
-
-    public Account() {
     }
 
     public String getNumber() {
@@ -82,12 +81,12 @@ public class Account {
         this.pin = pin;
     }
 
-    public Integer getAmount() {
-        return amount;
+    public Integer getBalance() {
+        return balance;
     }
 
-    public void setAmount(Integer amount) {
-        this.amount = amount;
+    public void setBalance(Integer balance) {
+        this.balance = balance;
     }
 
     public Integer getAttempt() {
@@ -104,5 +103,14 @@ public class Account {
 
     public void incrementAttempt() {
         attempt++;
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "number='" + number + '\'' +
+                ", balance=" + balance +
+                ", dateTime=" + dateTime +
+                '}';
     }
 }
