@@ -1,6 +1,5 @@
 package ru.simplewebapp.service;
 
-import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.simplewebapp.model.Account;
@@ -15,7 +14,7 @@ public class CardService {
     AccountsRepository repository;
 
     public List<Account> getAll() {
-        return Lists.newArrayList(repository.findAll());
+        return repository.findAll();
     }
 
     public Account getOneByNumber(String number) {
