@@ -1,0 +1,22 @@
+<div class="keypad">
+    <div class="keys">
+        <button type="button" class="btn btn-info btn-xs">7</button>
+        <button type="button" class="btn btn-info btn-xs">8</button>
+        <button type="button" class="btn btn-info btn-xs">9</button>
+    </div>
+    <div class="keys">
+        <button type="button" class="btn btn-info btn-xs">4</button>
+        <button type="button" class="btn btn-info btn-xs">5</button>
+        <button type="button" class="btn btn-info btn-xs">6</button>
+    </div>
+    <div class="keys">
+        <button type="button" class="btn btn-info btn-xs">1</button>
+        <button type="button" class="btn btn-info btn-xs">2</button>
+        <button type="button" class="btn btn-info btn-xs">3</button>
+    </div>
+    <div class="keys">
+        <button type="button" class="btn btn-warning btn-xs">Clear</button>
+        <button type="button" class="btn btn-info btn-xs">0</button>
+        <button type="button" class="btn btn-success btn-xs">Ok</button>
+    </div>
+</div>

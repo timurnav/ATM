@@ -17,39 +17,21 @@
 
         <h2 class="form-signin-heading">Enter card number</h2>
         <form id="form" class="form-signin" action="cards" method="POST">
-            <input name="card" type=text id="card" class="form-control"
+            <input type="hidden" name="card" id="hidden_field" value="${cardNumber}">
+            <input type=text id="visible_field" class="form-control"
                    placeholder="0000-0000-0000-0000" required readonly pattern="[0-9]{16}">
         </form>
-        <div class="keypad">
-            <div class="keys">
-                <button type="button" class="btn btn-info btn-xs">7</button>
-                <button type="button" class="btn btn-info btn-xs">8</button>
-                <button type="button" class="btn btn-info btn-xs">9</button>
-            </div>
-            <div class="keys">
-                <button type="button" class="btn btn-info btn-xs">4</button>
-                <button type="button" class="btn btn-info btn-xs">5</button>
-                <button type="button" class="btn btn-info btn-xs">6</button>
-            </div>
-            <div class="keys">
-                <button type="button" class="btn btn-info btn-xs">1</button>
-                <button type="button" class="btn btn-info btn-xs">2</button>
-                <button type="button" class="btn btn-info btn-xs">3</button>
-            </div>
-            <div class="keys">
-                <button type="button" class="btn btn-warning btn-xs">Clear</button>
-                <button type="button" class="btn btn-info btn-xs">0</button>
-                <button type="button" class="btn btn-success btn-xs">Ok</button>
-            </div>
-        </div>
+        <jsp:include page="fragments/keypad.jsp"/>
     </div>
 </div>
 
 </body>
 <script type="text/javascript">
 
-    var $field = $(document).find('input');
+    var $field = $(document).find('#visible_field');
+    var $hiddenField = $(document).find('#hidden_field');
     var $keys = $('.keys button');
+    var count = 0;
 
     $keys.on('click', function () {
         var val = this.textContent;
@@ -57,19 +39,30 @@
         switch (val) {
             case "Clear":
                 $field.val('');
+                $hiddenField.val('');
+                count = 0;
                 break;
             case "Ok":
                 sentForm();
                 break;
             default:
-                $field.val($field.val() + val);
-                $field.mask('0000-0000-0000-0000')
+                switch (count) {
+                    case 16:
+                        break;
+                    case 4:
+                    case 8:
+                    case 12:
+                        $field.val($field.val() + '-');
+                    default:
+                        $field.val($field.val() + val);
+                        $hiddenField.val($hiddenField.val() + val);
+                        count++;
+                }
         }
     });
 
     function sentForm() {
-        var val = $field.val();
-        if (val.length == 16) {
+        if (count == 16) {
             $('#form').submit();
         } else {
             alert('Input 16 numbers');
