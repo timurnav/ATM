@@ -15,9 +15,10 @@
 <div class="container">
     <div class="main_frame">
 
-        <h2 class="form-signin-heading">Enter card number</h2>
-        <form id="form" class="form-signin" action="cards" method="POST">
-            <input type="hidden" name="card" id="hidden_field" value="${cardNumber}">
+        <h2 class="form-signin-heading">Enter ${card==null?'card number':'pin code'}</h2>
+        <form id="form" class="form-signin" action="${card==null?'cards' : 'pin'}" method="POST">
+            <input type="hidden" name="card" value="${card}" id="card">
+            <input type="hidden" name="current" id="hidden_field">
             <input type=text id="visible_field" class="form-control"
                    placeholder="0000-0000-0000-0000" required readonly pattern="[0-9]{16}">
         </form>
@@ -30,12 +31,12 @@
 
     var $field = $(document).find('#visible_field');
     var $hiddenField = $(document).find('#hidden_field');
+    var $cardField = $(document).find('#card');
     var $keys = $('.keys button');
     var count = 0;
 
     $keys.on('click', function () {
         var val = this.textContent;
-
         switch (val) {
             case "Clear":
                 $field.val('');
@@ -46,23 +47,37 @@
                 sentForm();
                 break;
             default:
-                switch (count) {
-                    case 16:
-                        break;
-                    case 4:
-                    case 8:
-                    case 12:
-                        $field.val($field.val() + '-');
-                    default:
-                        $field.val($field.val() + val);
-                        $hiddenField.val($hiddenField.val() + val);
-                        count++;
-                }
+                addNumberIfNecessary(val);
         }
     });
 
+    function addNumberIfNecessary(val) {
+        alert($cardField.val());
+        if ($cardField.val() == '') {
+            switch (count) {
+                case 16:
+                    break;
+                case 4:
+                case 8:
+                case 12:
+                    $field.val($field.val() + '-');
+                default:
+                    $field.val($field.val() + val);
+                    $hiddenField.val($hiddenField.val() + val);
+                    count++;
+            }
+        } else {
+            if (count < 4) {
+                $hiddenField.val($hiddenField.val() + val);
+                $field.val($field.val() + '*');
+                count++;
+            }
+        }
+
+    }
+
     function sentForm() {
-        if (count == 16) {
+        if (count == 16 || $cardField.val() != '') {
             $('#form').submit();
         } else {
             alert('Input 16 numbers');
