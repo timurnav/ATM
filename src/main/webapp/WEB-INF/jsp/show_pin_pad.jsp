@@ -16,7 +16,7 @@
     <div class="main_frame">
 
         <h2 class="form-signin-heading">Enter pin code</h2>
-        <form id="form" class="form-signin" action="pin" method="POST">
+        <form id="form" class="form-signin" action="private_cabinet" method="POST">
             <input type="hidden" name="card" value="${card}" id="card">
             <input type="hidden" name="pin" id="hidden_field">
             <input type=text id="visible_field" class="form-control" required readonly>

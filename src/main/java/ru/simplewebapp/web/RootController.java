@@ -22,20 +22,20 @@ public class RootController {
         return "index";
     }
 
-    @RequestMapping(value = "/cards", method = RequestMethod.POST)
-    public String cards(Model model,
+    @RequestMapping(value = "/show_pin_pad", method = RequestMethod.POST)
+    public String showEnterPinPage(Model model,
                         @RequestParam(name = "card") String cardNumber) {
 
         if (service.checkCardNumber(cardNumber)) {
             model.addAttribute("card", cardNumber);
-            return "card";
+            return "show_pin_pad";
         }
         model.addAttribute("message", "Card isn't found");
         return "failed";
     }
 
     @RequestMapping(value = "/balance", method = RequestMethod.POST)
-    public String balance(Model model,
+    public String checkBalance(Model model,
                         @RequestParam(name = "card") String number) {
         Account account = service.getBalanceByNumber(number);
         model.addAttribute("account", account);
@@ -51,22 +51,22 @@ public class RootController {
     }
 
     @RequestMapping(value = "/withdraw_result", method = RequestMethod.POST)
-    public String withdrawResult(Model model,
+    public String showWithdrawResultPage(Model model,
                            @RequestParam(name = "card") String cardNumber,
                            @RequestParam(name = "sum") int sum) {
 
-        Account accoutAfterWithdraw = service.withdraw(cardNumber, sum);
-        model.addAttribute("account", accoutAfterWithdraw);
+        Account accountAfterWithdraw = service.withdraw(cardNumber, sum);
+        model.addAttribute("account", accountAfterWithdraw);
         model.addAttribute("card", cardNumber);
         model.addAttribute("sum", sum);
 
         return "withdraw_result";
     }
 
-    @RequestMapping(value = "/pin", method = RequestMethod.POST)
-    public String pinCode(Model model,
-                          @RequestParam(name = "pin") String pin,
-                          @RequestParam(name = "card") String cardNumber) {
+    @RequestMapping(value = "/private_cabinet", method = RequestMethod.POST)
+    public String checkPinCodeAndEnterToSystem(Model model,
+                               @RequestParam(name = "pin") String pin,
+                               @RequestParam(name = "card") String cardNumber) {
         try {
             service.checkAndGetAccount(cardNumber, pin);
         } catch (LockedAccountException exception) {
@@ -75,14 +75,14 @@ public class RootController {
         } catch (WrongPinException exception) {
             model.addAttribute("card", cardNumber);
             model.addAttribute("message", "incorrect pin code.");
-            return "card";
+            return "show_pin_pad";
         }
 
-        return "operations";
+        return "private_cabinet";
     }
 
     @RequestMapping(value = "/exit", method = RequestMethod.POST)
-    public String exit(Model model) {
+    public String logout(Model model) {
         return "redirect:/";
     }
 
