@@ -29,39 +29,38 @@ public class AccountService {
         return accountsRepository.getByNumber(number);
     }
 
+    public Account getBalanceByNumber(String number) {
+        Account account = accountsRepository.getByNumber(number);
+        Operation operation = new Operation(Type.REQUEST_BALANCE, account, account.getDateTime());
+        operationsRepository.save(operation);
+        return account;
+    }
+
     public boolean checkCardNumber(String number) {
         return  accountsRepository.getByNumber(number) != null;
     }
 
     public Account withdraw(String number, Integer sum) {
         // TODO convert from USD to CENTS
-
         Account account = getAccountByNumber(number);
         Integer balance = account.getBalance();
         if(sum > balance) {
             throw new WrongOperationException("Not enough money on account balance to fulfuil your request please try again with different amount");
         }
-
         account.setBalance(balance - sum);
         account.setDateTime(LocalDateTime.now());
-
         Operation operation = new Operation(Type.WITHDRAW, account, account.getDateTime(), sum);
         operationsRepository.save(operation);
-
         return  accountsRepository.save(account);
     }
 
     public Account checkAndGetAccount(String number, String pin) {
-
         Account account = accountsRepository.getByNumber(number);
-
         if (pin.equals(account.getPin())) {
             account.dropAttempts();
         } else {
-            // TODO this should be somewhere in web session, not in db...
             account.incrementAttempt();
         }
-
         return accountsRepository.save(account);
 
     }

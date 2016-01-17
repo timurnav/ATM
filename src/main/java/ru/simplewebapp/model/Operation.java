@@ -38,6 +38,13 @@ public class Operation {
         this.amount = amount;
     }
 
+    public Operation(Type operationCode, Account account, LocalDateTime dateTime) {
+        this.operationCode = operationCode;
+        this.account = account;
+        this.dateTime = dateTime;
+        this.amount = 0;
+    }
+
     public Integer getId() {
         return id;
     }

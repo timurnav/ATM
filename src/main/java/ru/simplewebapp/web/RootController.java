@@ -35,7 +35,7 @@ public class RootController {
     @RequestMapping(value = "/balance", method = RequestMethod.POST)
     public String balance(Model model,
                         @RequestParam(name = "card") String number) {
-        Account account = service.getAccountByNumber(number);
+        Account account = service.getBalanceByNumber(number);
         model.addAttribute("account", account);
         return "balance";
     }

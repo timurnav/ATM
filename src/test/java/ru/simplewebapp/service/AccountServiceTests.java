@@ -21,7 +21,7 @@ import ru.simplewebapp.util.exception.WrongOperationException;
 })
 @RunWith(SpringJUnit4ClassRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
-public class CardServiceTests {
+public class AccountServiceTests {
 
     public static final String ACCOUNT1_NUMBER = "1111111111111111";
     public static final Integer ACCOUNT1_BALANCE = 10000;
@@ -29,7 +29,7 @@ public class CardServiceTests {
 
     public static final Integer ONE_CENT = 1;
 
-    private final Logger LOG = LoggerFactory.getLogger(CardServiceTests.class);
+    private final Logger LOG = LoggerFactory.getLogger(AccountServiceTests.class);
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
