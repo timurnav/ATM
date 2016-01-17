@@ -3,7 +3,10 @@ package ru.simplewebapp.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.simplewebapp.model.Account;
+import ru.simplewebapp.model.Operation;
+import ru.simplewebapp.model.Type;
 import ru.simplewebapp.repository.AccountsRepository;
+import ru.simplewebapp.repository.OperationsRepository;
 import ru.simplewebapp.util.exception.WrongOperationException;
 
 import java.time.LocalDateTime;
@@ -13,18 +16,21 @@ import java.util.List;
 public class AccountService {
 
     @Autowired
-    AccountsRepository repository;
+    AccountsRepository accountsRepository;
+
+    @Autowired
+    OperationsRepository operationsRepository;
 
     public List<Account> getAll() {
-        return repository.findAll();
+        return accountsRepository.findAll();
     }
 
     public Account getAccountByNumber(String number) {
-        return repository.getByNumber(number);
+        return accountsRepository.getByNumber(number);
     }
 
     public boolean checkCardNumber(String number) {
-        return  repository.getByNumber(number) != null;
+        return  accountsRepository.getByNumber(number) != null;
     }
 
     public Account withdraw(String number, Integer sum) {
@@ -36,15 +42,18 @@ public class AccountService {
             throw new WrongOperationException("Not enough money on account balance to fulfuil your request please try again with different amount");
         }
 
-        // TODO add operation to operations list
         account.setBalance(balance - sum);
         account.setDateTime(LocalDateTime.now());
-        return  repository.save(account);
+
+        Operation operation = new Operation(Type.WITHDRAW, account, account.getDateTime(), sum);
+        operationsRepository.save(operation);
+
+        return  accountsRepository.save(account);
     }
 
     public Account checkAndGetAccount(String number, String pin) {
 
-        Account account = repository.getByNumber(number);
+        Account account = accountsRepository.getByNumber(number);
 
         if (pin.equals(account.getPin())) {
             account.dropAttempts();
@@ -53,7 +62,7 @@ public class AccountService {
             account.incrementAttempt();
         }
 
-        return repository.save(account);
+        return accountsRepository.save(account);
 
     }
 

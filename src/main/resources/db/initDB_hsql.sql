@@ -20,16 +20,10 @@ CREATE TABLE operations
   date_time    TIMESTAMP,
   amount INTEGER NOT NULL,
   account_id INTEGER NOT NULL,
+  opt_type VARCHAR(255) NOT NULL,
   FOREIGN KEY ( account_id ) REFERENCES ACCOUNTS ( id ) ON DELETE CASCADE
 );
 
-CREATE TABLE ops_types
-(
-  operation_id INTEGER NOT NULL,
-  type VARCHAR(255),
-  CONSTRAINT operations_types_idx UNIQUE (operation_id, type),
-  FOREIGN KEY ( operation_id ) REFERENCES operations ( id ) ON DELETE CASCADE
-);
 
 
 

@@ -15,10 +15,8 @@ public class Operation {
     private Integer id;
 
     @Enumerated(EnumType.STRING)
-    @CollectionTable(name = "ops_types", joinColumns = @JoinColumn(name = "operation_id"))
-    @Column(name = "type")
-    @ElementCollection(fetch = FetchType.EAGER)
-    private Set<Type> operationCode;
+    @Column(name = "opt_type")
+    private Type operationCode;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", nullable = false)
@@ -33,7 +31,7 @@ public class Operation {
     public Operation() {
     }
 
-    public Operation(Set<Type> operationCode, Account account, LocalDateTime dateTime, Integer amount) {
+    public Operation(Type operationCode, Account account, LocalDateTime dateTime, Integer amount) {
         this.operationCode = operationCode;
         this.account = account;
         this.dateTime = dateTime;

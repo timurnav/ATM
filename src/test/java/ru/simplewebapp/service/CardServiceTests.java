@@ -35,39 +35,42 @@ public class CardServiceTests {
     public ExpectedException thrown = ExpectedException.none();
 
     @Autowired
-    protected AccountService service;
+    protected AccountService accountService;
+
+    @Autowired
+    protected OperationService operationService;
 
     @Test
     public void testGetAll() throws Exception {
-        Assert.assertEquals(service.getAll().size(), ACCOUNTS1_SIZE.intValue());
+        Assert.assertEquals(accountService.getAll().size(), ACCOUNTS1_SIZE.intValue());
     }
 
     @Test
     public void testGetOne() throws Exception {
-        Assert.assertEquals(service.getAccountByNumber(ACCOUNT1_NUMBER).getNumber(), ACCOUNT1_NUMBER);
+        Assert.assertEquals(accountService.getAccountByNumber(ACCOUNT1_NUMBER).getNumber(), ACCOUNT1_NUMBER);
     }
 
 
     @Test
     public void testWithdrawOneCent() throws Exception {
-        Account account = service.getAccountByNumber(ACCOUNT1_NUMBER);
+        Account account = accountService.getAccountByNumber(ACCOUNT1_NUMBER);
         Integer minusOneCent = account.getBalance() - ONE_CENT;
-        Account result = service.withdraw(ACCOUNT1_NUMBER, ONE_CENT);
+        Account result = accountService.withdraw(ACCOUNT1_NUMBER, ONE_CENT);
         Assert.assertEquals(result.getBalance(), minusOneCent);
     }
 
     @Test
     public void testWithdrawAllMoney() throws Exception {
-        Account account = service.getAccountByNumber(ACCOUNT1_NUMBER);
-        Account result = service.withdraw(ACCOUNT1_NUMBER, account.getBalance());
+        Account account = accountService.getAccountByNumber(ACCOUNT1_NUMBER);
+        Account result = accountService.withdraw(ACCOUNT1_NUMBER, account.getBalance());
         Assert.assertEquals(result.getBalance(), new Integer(0));
     }
 
     @Test
     public void testWithdrawMoreThanOnBalance() throws Exception {
         thrown.expect(WrongOperationException.class);
-        Account account = service.getAccountByNumber(ACCOUNT1_NUMBER);
-        service.withdraw(ACCOUNT1_NUMBER, account.getBalance() + 1);
+        Account account = accountService.getAccountByNumber(ACCOUNT1_NUMBER);
+        accountService.withdraw(ACCOUNT1_NUMBER, account.getBalance() + 1);
     }
 
 
