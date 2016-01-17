@@ -10,6 +10,7 @@ CREATE TABLE accounts
   number VARCHAR(255) NOT NULL,
   pin VARCHAR(255) NOT NULL,
   balance INTEGER DEFAULT 0,
+  attempt INTEGER DEFAULT 0,
   date_time    TIMESTAMP
 );
 
