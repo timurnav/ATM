@@ -22,11 +22,11 @@ public class RootController {
 
     @RequestMapping(value = "/cards", method = RequestMethod.POST)
     public String cards(Model model,
-                        @RequestParam(name = "current") String cardNumber) {
+                        @RequestParam(name = "card") String cardNumber) {
 
         if (service.checkCardNumber(cardNumber)) {
             model.addAttribute("card", cardNumber);
-            return "index";
+            return "card";
         }
         model.addAttribute("message", "Card isn't found");
         return "failed";
@@ -58,7 +58,7 @@ public class RootController {
 
     @RequestMapping(value = "/pin", method = RequestMethod.POST)
     public String pinCode(Model model,
-                          @RequestParam(name = "current") String pin,
+                          @RequestParam(name = "pin") String pin,
                           @RequestParam(name = "card") String cardNumber) {
 
         Account account = service.checkAndGetAccount(cardNumber, pin);

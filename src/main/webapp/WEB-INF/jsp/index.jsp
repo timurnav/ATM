@@ -15,12 +15,11 @@
 <div class="container">
     <div class="main_frame">
 
-        <h2 class="form-signin-heading">Enter ${card==null?'card number':'pin code'}</h2>
-        <form id="form" class="form-signin" action="${card==null?'cards' : 'pin'}" method="POST">
-            <input type="hidden" name="card" value="${card}" id="card">
-            <input type="hidden" name="current" id="hidden_field">
+        <h2 class="form-signin-heading">Enter card number</h2>
+        <form id="form" class="form-signin" action="cards" method="POST">
+            <input type="hidden" name="card" id="hidden_field">
             <input type=text id="visible_field" class="form-control"
-                   placeholder="0000-0000-0000-0000" required readonly pattern="[0-9]{16}">
+                   placeholder="0000-0000-0000-0000" required readonly>
         </form>
         <jsp:include page="fragments/keypad.jsp"/>
     </div>
@@ -31,9 +30,10 @@
 
     var $field = $(document).find('#visible_field');
     var $hiddenField = $(document).find('#hidden_field');
-    var $cardField = $(document).find('#card');
     var $keys = $('.keys button');
     var count = 0;
+    maxCount = 16;
+    fieldMask = '____-____-____-____';
 
     $keys.on('click', function () {
         var val = this.textContent;
@@ -52,35 +52,23 @@
     });
 
     function addNumberIfNecessary(val) {
-        alert($cardField.val());
-        if ($cardField.val() == '') {
-            switch (count) {
-                case 16:
-                    break;
-                case 4:
-                case 8:
-                case 12:
-                    $field.val($field.val() + '-');
-                default:
-                    $field.val($field.val() + val);
-                    $hiddenField.val($hiddenField.val() + val);
-                    count++;
-            }
-        } else {
-            if (count < 4) {
+        switch (count) {
+            case maxCount:
+                break;
+            case 0:
+                $field.val(fieldMask);
+            default:
+                $field.val($field.val().replace("_", val));
                 $hiddenField.val($hiddenField.val() + val);
-                $field.val($field.val() + '*');
                 count++;
-            }
         }
-
     }
 
     function sentForm() {
-        if (count == 16 || $cardField.val() != '') {
+        if (count == maxCount) {
             $('#form').submit();
         } else {
-            alert('Input 16 numbers');
+            alert('Expected 16 numbers');
         }
     }
 
