@@ -22,6 +22,7 @@
             <input type=text id="visible_field" class="form-control" required readonly>
         </form>
         <jsp:include page="fragments/keypad.jsp"/>
+        <div>${message}</div>
     </div>
 </div>
 
@@ -35,13 +36,17 @@
     maxCount = 4;
     fieldMask = '____';
 
+    $exitButton = $('.exit');
+    $exitButton.show();
+    $exitButton.on('click', function () {
+        location.href = '/';
+    });
+
     $keys.on('click', function () {
         var val = this.textContent;
         switch (val) {
             case "Clear":
-                $field.val('');
-                $hiddenField.val('');
-                count = 0;
+                clearField();
                 break;
             case "Ok":
                 sentForm();
@@ -50,6 +55,12 @@
                 addNumberIfNecessary(val);
         }
     });
+
+    function clearField() {
+        $field.val('');
+        $hiddenField.val('');
+        count = 0;
+    }
 
     function addNumberIfNecessary(val) {
         switch (count) {
@@ -69,7 +80,7 @@
         if (count == maxCount) {
             $('#form').submit();
         } else {
-            alert('Expected 4 numbers');
+            alert('Expected ' + maxCount + ' numbers');
         }
     }
 

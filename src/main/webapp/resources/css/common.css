@@ -4,10 +4,15 @@ body {
     background-color: #eee;
 }
 
+.container {
+    margin: auto;
+    background-color: rgba(93, 255, 50, 0.43);
+    width: 800px;
+    height: 100%;
+}
+
 .main_frame {
     margin: auto;
-    background-color: #8ad492;
-    width: 480px;
     height: 640px;
     border-radius: 15px;
 }
@@ -32,14 +37,9 @@ body {
     font-size: 36px;
     text-align: center;
 }
-.form-signin input[type="password"] {
-    margin-bottom: 10px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-}
 
 .keypad button {
-    align-content: center;
+    /*align-content: center;*/
     margin: 5px;
     width: 100px;
     height: 100px;
@@ -47,6 +47,24 @@ body {
     border-radius: 10px;
 }
 
+.exit button {
+    width: 330px;
+    padding: 15px 115px;
+}
+
 .keypad {
-    padding: 15px 70px;
+    padding: 15px 215px;
+}
+
+.left-block {
+    padding-top: 15px;
+    float: left;
+    width: 43%;
+}
+
+.right-block {
+    padding-top: 15px;
+    float: right;
+    width: 56%;
+
 }

@@ -28,8 +28,8 @@
 </body>
 <script type="text/javascript">
 
-    var $field = $(document).find('#visible_field');
-    var $hiddenField = $(document).find('#hidden_field');
+    var $field = $('#visible_field');
+    var $hiddenField = $('#hidden_field');
     var $keys = $('.keys button');
     var count = 0;
     maxCount = 16;
