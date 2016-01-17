@@ -7,7 +7,9 @@ import ru.simplewebapp.model.Operation;
 import ru.simplewebapp.model.Type;
 import ru.simplewebapp.repository.AccountsRepository;
 import ru.simplewebapp.repository.OperationsRepository;
+import ru.simplewebapp.util.exception.LockedAccountException;
 import ru.simplewebapp.util.exception.WrongOperationException;
+import ru.simplewebapp.util.exception.WrongPinException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -56,13 +58,19 @@ public class AccountService {
 
     public Account checkAndGetAccount(String number, String pin) {
         Account account = accountsRepository.getByNumber(number);
-        if (pin.equals(account.getPin())) {
-            account.dropAttempts();
-        } else {
-            account.incrementAttempt();
+        if(account.getAttempt() >= Account.MAX_ATTEMPTS) {
+            throw new LockedAccountException("Account was locked");
         }
-        return accountsRepository.save(account);
 
+        if (pin.equals(account.getPin())) {
+            account.cleanWrongAttempts();
+        } else {
+            account.incrementWrongAttempt();
+            accountsRepository.save(account);
+            throw new WrongPinException("Pin is not correct");
+        }
+
+        return account;
     }
 
 

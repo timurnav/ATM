@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.simplewebapp.model.Account;
 import ru.simplewebapp.service.AccountService;
+import ru.simplewebapp.util.exception.LockedAccountException;
+import ru.simplewebapp.util.exception.WrongPinException;
 
 @Controller
 public class RootController {
@@ -65,20 +67,18 @@ public class RootController {
     public String pinCode(Model model,
                           @RequestParam(name = "pin") String pin,
                           @RequestParam(name = "card") String cardNumber) {
-
-        Account account = service.checkAndGetAccount(cardNumber, pin);
-
-        if (account.getAttempt() == 0) {
-            account.dropAttempts();
-            return "operations";
-        }
-        if (account.getAttempt() < 4) {
+        try {
+            service.checkAndGetAccount(cardNumber, pin);
+        } catch (LockedAccountException exception) {
+            model.addAttribute("message", "Card is blocked");
+            return "failed";
+        } catch (WrongPinException exception) {
             model.addAttribute("card", cardNumber);
             model.addAttribute("message", "incorrect pin code.");
             return "card";
         }
-        model.addAttribute("message", "Card is blocked");
-        return "failed";
+
+        return "operations";
     }
 
     @RequestMapping(value = "/exit", method = RequestMethod.POST)

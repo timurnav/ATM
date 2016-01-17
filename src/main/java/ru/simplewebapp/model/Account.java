@@ -9,6 +9,8 @@ import java.time.LocalDateTime;
 @Table(name = "ACCOUNTS")
 public class Account {
 
+    public static final Integer MAX_ATTEMPTS = 4;
+
     @Id
     @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
@@ -97,11 +99,11 @@ public class Account {
         this.attempt = attempt;
     }
 
-    public void dropAttempts() {
+    public void cleanWrongAttempts() {
         attempt = 0;
     }
 
-    public void incrementAttempt() {
+    public void incrementWrongAttempt() {
         attempt++;
     }
 
