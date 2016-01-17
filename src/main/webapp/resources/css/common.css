@@ -7,7 +7,7 @@ body {
 .container {
     margin: auto;
     background-color: rgba(93, 255, 50, 0.43);
-    width: 800px;
+    width: 850px;
     height: 100%;
 }
 
@@ -53,18 +53,21 @@ body {
 }
 
 .keypad {
-    padding: 15px 215px;
+    padding: 15px 240px;
 }
 
+.right-block .keypad {
+    padding: 15px 90px;
+}
 .left-block {
     padding-top: 15px;
     float: left;
-    width: 43%;
+    width: 35%;
 }
 
 .right-block {
     padding-top: 15px;
     float: right;
-    width: 56%;
+    width: 64%;
 
 }

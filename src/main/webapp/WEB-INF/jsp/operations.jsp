@@ -25,8 +25,8 @@
     <div class="container">
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
-            <li><a data-toggle="tab" href="#menu1">Menu 1</a></li>
-            <li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
+            <li><a data-toggle="tab" href="#balance">Balance</a></li>
+            <li><a data-toggle="tab" href="#withdraw">Withdraw</a></li>
         </ul>
 
         <div class="tab-content">
@@ -38,22 +38,29 @@
                     <p>Для того чтобы воспользоваться нашими услугами придется поводить мышкой по экрану и покликать.
                         Чтобы проверить насколько жалок баланс вашего счета вам нужно перейти на вкладку Balance, чтобы
                         снять наличность с карты придется перейти на вкладку Withdraw</p>
-                    <p align="left">Приятного дня!</p>
+                    <p align="right">Приятного дня!</p>
                 </div>
                 <div class="right-block">
                     <img src="resources/images/atm_img.png" class="img-rounded" alt="Cinque Terre" width="450"
                          height="320">
                 </div>
             </div>
-            <div id="menu1" class="tab-pane fade">
-                <h3>Menu 1</h3>
+            <div id="balance" class="tab-pane fade">
                 <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
                     consequat.</p>
             </div>
-            <div id="menu2" class="tab-pane fade">
-                <h3>Menu 2</h3>
-                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
-                    totam rem aperiam.</p>
+            <div id="withdraw" class="tab-pane fade">
+                <div class="left-block">
+
+                </div>
+                <div class="right-block">
+                    <form id="form" class="form-signin" action="cards" method="POST">
+                        <input type="hidden" name="card" id="hidden_field">
+                        <input type=text id="visible_field" class="form-control"
+                               placeholder="0000-0000-0000-0000" required readonly>
+                    </form>
+                    <jsp:include page="fragments/keypad.jsp"/>
+                </div>
             </div>
         </div>
     </div>
