@@ -5,10 +5,12 @@
     <title>WITHDRAW REPORT</title>
 </head>
 <body>
-Your card number is XXXX-XXXX-XXXX-XXXX
-Current date is DATE
-You took YYY USD from your account
-Your balance is XXX USD
+<jsp:useBean id="account" type="ru.simplewebapp.model.Account" scope="request"/>
+
+Your card number is ${account.number}
+Last transaction time is ${account.dateTime}
+You took ${sum} USD from your account
+Your balance is ${account.balance} USD
 
 <form method="post" action="">
     <input name="card" type=hidden value="${card}">

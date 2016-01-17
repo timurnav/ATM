@@ -10,7 +10,7 @@
 <body>
 <jsp:useBean id="account" type="ru.simplewebapp.model.Account" scope="request"/>
 Your card number is ${account.number}
-Current date is ${account.dateTime}
+Last transaction time is ${account.dateTime}
 Your balance is ${account.balance} USD
 
 <form method="post" action="">
