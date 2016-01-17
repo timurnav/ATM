@@ -58,7 +58,7 @@
             case 0:
                 $field.val(fieldMask);
             default:
-                $field.val($field.val().replace("_", "*"));
+                $field.val($field.val().replace("_", "○"));
                 $hiddenField.val($hiddenField.val() + val);
                 count++;
 
