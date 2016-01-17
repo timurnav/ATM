@@ -75,7 +75,7 @@ public class RootController {
         if (account.getAttempt() < 4) {
             model.addAttribute("card", cardNumber);
             model.addAttribute("message", "incorrect pin code.");
-            return "cards";
+            return "card";
         }
         model.addAttribute("message", "Card is blocked");
         return "failed";

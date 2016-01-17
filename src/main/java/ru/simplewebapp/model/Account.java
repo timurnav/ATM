@@ -25,8 +25,8 @@ public class Account {
     @Column(name = "balance", columnDefinition = "default 0")
     private Integer balance;
 
-    @Transient
-    private Integer attempt = 0;
+    @Column(name = "attempt", columnDefinition = "default 0")
+    private Integer attempt;
 
     @Column(name = "date_time", nullable = false)
     private LocalDateTime dateTime;
