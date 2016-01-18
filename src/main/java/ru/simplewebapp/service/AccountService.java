@@ -2,6 +2,7 @@ package ru.simplewebapp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.simplewebapp.Utils.MoneyUtils;
 import ru.simplewebapp.model.Account;
 import ru.simplewebapp.model.Operation;
 import ru.simplewebapp.model.Type;
@@ -43,15 +44,16 @@ public class AccountService {
     }
 
     public Account withdraw(String number, Integer sum) {
-        // TODO convert from USD to CENTS
+        Integer cents = MoneyUtils.convertFromDollarsToCents(sum);
+
         Account account = getAccountByNumber(number);
         Integer balance = account.getBalance();
-        if(sum > balance) {
+        if(cents > balance) {
             throw new WrongOperationException("Not enough money on account balance to fulfuil your request please try again with different amount");
         }
-        account.setBalance(balance - sum);
+        account.setBalance(balance - cents);
         account.setDateTime(LocalDateTime.now());
-        Operation operation = new Operation(Type.WITHDRAW, account, account.getDateTime(), sum);
+        Operation operation = new Operation(Type.WITHDRAW, account, account.getDateTime(), cents);
         operationsRepository.save(operation);
         return  accountsRepository.save(account);
     }
