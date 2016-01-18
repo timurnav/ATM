@@ -90,31 +90,31 @@ public class AccountServiceTests {
         try {
             accountService.checkAndGetAccount(ACCOUNT1_NUMBER, ACCOUNT1_WRONG_PIN);
         } catch (WrongPinException exc) {
-            LOG.info("Wrong pin attempt during test");
+            LOG.info("Wrong pin attempt during test 1");
         }
 
         try {
             accountService.checkAndGetAccount(ACCOUNT1_NUMBER, ACCOUNT1_WRONG_PIN);
         } catch (WrongPinException exc) {
-            LOG.info("Wrong pin attempt during test");
+            LOG.info("Wrong pin attempt during test 2");
         }
 
         try {
             accountService.checkAndGetAccount(ACCOUNT1_NUMBER, ACCOUNT1_WRONG_PIN);
         } catch (WrongPinException exc) {
-            LOG.info("Wrong pin attempt during test");
+            LOG.info("Wrong pin attempt during test 3");
         }
 
         try {
             accountService.checkAndGetAccount(ACCOUNT1_NUMBER, ACCOUNT1_WRONG_PIN);
         } catch (WrongPinException exc) {
-            LOG.info("Wrong pin attempt during test");
+            LOG.info("Wrong pin attempt during test 4");
         }
 
         try {
             accountService.checkAndGetAccount(ACCOUNT1_NUMBER, ACCOUNT1_WRONG_PIN);
         } catch (WrongPinException exc) {
-            LOG.info("Wrong pin attempt during test");
+            LOG.info("Wrong pin attempt during test 5 - should be LockedAccountException thrown");
         }
     }
 
