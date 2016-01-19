@@ -13,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 import ru.simplewebapp.model.Account;
 import ru.simplewebapp.util.exception.LockedAccountException;
 import ru.simplewebapp.util.exception.WrongOperationException;
@@ -84,6 +85,7 @@ public class AccountServiceTests {
     }
 
 
+    @Transactional
     @Test
     public void testAccountBlockedAfter4WrongAttempts() throws Exception {
         thrown.expect(LockedAccountException.class);
