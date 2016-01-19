@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import ru.simplewebapp.model.Account;
 import ru.simplewebapp.service.AccountService;
 import ru.simplewebapp.util.exception.LockedAccountException;
@@ -22,18 +23,34 @@ public class RootController {
         return "index";
     }
 
-    @RequestMapping(value = "/show_pin_pad", method = RequestMethod.POST)
+    @RequestMapping(value = "/pin_enter", method = RequestMethod.POST)
     public String showEnterPinPage(Model model,
                         @RequestParam(name = "card") String cardNumber) {
 
         if (service.checkCardNumber(cardNumber)) {
             model.addAttribute("card", cardNumber);
-            return "show_pin_pad";
+            return "pin_enter";
         }
         model.addAttribute("message", "Card isn't found");
         return "failed";
     }
 
+    @RequestMapping(value = "/private_cabinet", method = RequestMethod.POST)
+    public String checkPinCodeAndEnterToSystem(Model model,
+                                               @RequestParam(name = "pin") String pin,
+                                               @RequestParam(name = "card") String cardNumber) {
+        try {
+            Account account = service.checkAndGetAccount(cardNumber, pin);
+            model.addAttribute("card", account.getNumber());
+            return "private_cabinet";
+        } catch (LockedAccountException | WrongPinException exception) {
+            model.addAttribute("message", exception.getMessage());
+            return "failed";
+        }
+
+    }
+
+    @ResponseBody
     @RequestMapping(value = "/balance", method = RequestMethod.POST)
     public String checkBalance(Model model,
                         @RequestParam(name = "card") String number) {
@@ -61,20 +78,6 @@ public class RootController {
         model.addAttribute("sum", sum);
 
         return "withdraw_result";
-    }
-
-    @RequestMapping(value = "/private_cabinet", method = RequestMethod.POST)
-    public String checkPinCodeAndEnterToSystem(Model model,
-                               @RequestParam(name = "pin") String pin,
-                               @RequestParam(name = "card") String cardNumber) {
-        try {
-            service.checkAndGetAccount(cardNumber, pin);
-            return "private_cabinet";
-        } catch (LockedAccountException | WrongPinException exception) {
-            model.addAttribute("message", exception.getMessage());
-            return "failed";
-        }
-
     }
 
     @RequestMapping(value = "/exit", method = RequestMethod.POST)

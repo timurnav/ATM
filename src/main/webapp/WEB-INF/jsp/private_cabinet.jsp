@@ -34,8 +34,16 @@
                 </div>
             </div>
             <div id="balance" class="tab-pane fade">
-                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                    consequat.</p>
+                <div class="left-block">
+                    <button type="button" class="btn btn-info btn-xs" onclick="printBalance()">Show account info
+                    </button>
+                </div>
+                <div class="right-block">
+                    <div id="image">
+                        <img src="resources/images/atm_img.png" class="img-rounded" alt="Cinque Terre" width="450"
+                             height="320">
+                    </div>
+                </div>
             </div>
             <div id="withdraw" class="tab-pane fade">
                 <div class="left-block">
@@ -53,7 +61,18 @@
         </div>
     </div>
 </div>
-${message}
-
 </body>
+<script>
+    function printBalance() {
+        $.ajax({
+            type: "POST",
+            url: "balance",
+            data: "card=${card}",
+            success: function (data) {
+                $('#image').hide();
+                alert(data);
+            }
+        });
+    }
+</script>
 </html>

@@ -16,7 +16,7 @@
     <div class="main_frame">
 
         <h2 class="form-signin-heading">Enter card number</h2>
-        <form id="form" class="form-signin" action="show_pin_pad" method="POST">
+        <form id="form" class="form-signin" action="pin_enter" method="POST">
             <input type="hidden" name="card" id="hidden_field">
             <input type=text id="visible_field" class="form-control"
                    placeholder="0000-0000-0000-0000" required readonly>
