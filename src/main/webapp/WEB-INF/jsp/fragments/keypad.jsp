@@ -19,7 +19,4 @@
         <button type="button" class="btn btn-info btn-xs">0</button>
         <button type="button" class="btn btn-success btn-xs">Ok</button>
     </div>
-    <div class="keys exit" hidden="hidden">
-        <button type="button" id="exit-button" class="btn btn-danger btn-xs">Exit</button>
-    </div>
 </div>

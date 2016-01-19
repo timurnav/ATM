@@ -11,7 +11,7 @@
     <title>ATM</title>
 </head>
 <body>
-
+<jsp:include page="fragments/logout_header.jsp"/>
 <div class="container">
     <div class="main_frame">
 
@@ -22,7 +22,6 @@
             <input type=text id="visible_field" class="form-control" required readonly>
         </form>
         <jsp:include page="fragments/keypad.jsp"/>
-        <div>${message}</div>
     </div>
 </div>
 
@@ -32,15 +31,9 @@
     var $field = $(document).find('#visible_field');
     var $hiddenField = $(document).find('#hidden_field');
     var $keys = $('.keys button');
-    var count = 0;
+    var count = $hiddenField.val().length;
     maxCount = 4;
     fieldMask = '____';
-
-    $exitButton = $('.exit');
-    $exitButton.show();
-    $exitButton.on('click', function () {
-        location.href = '/';
-    });
 
     $keys.on('click', function () {
         var val = this.textContent;

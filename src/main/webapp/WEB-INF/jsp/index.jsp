@@ -31,7 +31,7 @@
     var $field = $('#visible_field');
     var $hiddenField = $('#hidden_field');
     var $keys = $('.keys button');
-    var count = 0;
+    var count = $hiddenField.val().length;
     maxCount = 16;
     fieldMask = '____-____-____-____';
 

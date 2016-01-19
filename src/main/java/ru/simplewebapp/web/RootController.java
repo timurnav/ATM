@@ -69,16 +69,12 @@ public class RootController {
                                @RequestParam(name = "card") String cardNumber) {
         try {
             service.checkAndGetAccount(cardNumber, pin);
-        } catch (LockedAccountException exception) {
-            model.addAttribute("message", "Card is blocked");
+            return "private_cabinet";
+        } catch (LockedAccountException | WrongPinException exception) {
+            model.addAttribute("message", exception.getMessage());
             return "failed";
-        } catch (WrongPinException exception) {
-            model.addAttribute("card", cardNumber);
-            model.addAttribute("message", "incorrect pin code.");
-            return "show_pin_pad";
         }
 
-        return "private_cabinet";
     }
 
     @RequestMapping(value = "/exit", method = RequestMethod.POST)
