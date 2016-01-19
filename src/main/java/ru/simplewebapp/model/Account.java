@@ -24,6 +24,8 @@ public class Account {
     @NotEmpty
     private String pin;
 
+    // http://stackoverflow.com/questions/3730019/why-not-use-double-or-float-to-represent-currency
+    // in cents
     @Column(name = "balance", columnDefinition = "default 0")
     private Integer balance;
 

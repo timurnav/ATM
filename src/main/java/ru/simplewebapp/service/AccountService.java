@@ -2,7 +2,7 @@ package ru.simplewebapp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.simplewebapp.Utils.MoneyUtils;
+import org.springframework.transaction.annotation.Transactional;
 import ru.simplewebapp.model.Account;
 import ru.simplewebapp.model.Operation;
 import ru.simplewebapp.model.Type;
@@ -32,6 +32,7 @@ public class AccountService {
         return accountsRepository.getByNumber(number);
     }
 
+    @Transactional
     public Account getBalanceByNumber(String number) {
         Account account = accountsRepository.getByNumber(number);
         Operation operation = new Operation(Type.REQUEST_BALANCE, account, account.getDateTime());
@@ -43,21 +44,21 @@ public class AccountService {
         return  accountsRepository.getByNumber(number) != null;
     }
 
+    @Transactional
     public Account withdraw(String number, Integer sum) {
-        Integer cents = MoneyUtils.convertFromDollarsToCents(sum);
-
         Account account = getAccountByNumber(number);
         Integer balance = account.getBalance();
-        if(cents > balance) {
+        if(sum > balance) {
             throw new WrongOperationException("Not enough money on account balance to fulfuil your request please try again with different amount");
         }
-        account.setBalance(balance - cents);
+        account.setBalance(balance - sum);
         account.setDateTime(LocalDateTime.now());
-        Operation operation = new Operation(Type.WITHDRAW, account, account.getDateTime(), cents);
+        Operation operation = new Operation(Type.WITHDRAW, account, account.getDateTime(), sum);
         operationsRepository.save(operation);
         return  accountsRepository.save(account);
     }
 
+    @Transactional
     public Account checkAndGetAccount(String number, String pin) {
         Account account = accountsRepository.getByNumber(number);
         if(account.getAttempt() >= Account.MAX_ATTEMPTS) {
