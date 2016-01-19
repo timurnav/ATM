@@ -49,7 +49,7 @@ public class AccountService {
         Account account = getAccountByNumber(number);
         Integer balance = account.getBalance();
         if(sum > balance) {
-            throw new WrongOperationException("Not enough money on account balance to fulfuil your request please try again with different amount");
+            throw new WrongOperationException();
         }
         account.setBalance(balance - sum);
         account.setDateTime(LocalDateTime.now());
@@ -62,7 +62,7 @@ public class AccountService {
     public Account checkAndGetAccount(String number, String pin) {
         Account account = accountsRepository.getByNumber(number);
         if(account.getAttempt() >= Account.MAX_ATTEMPTS) {
-            throw new LockedAccountException("Account was locked");
+            throw new LockedAccountException();
         }
 
         if (pin.equals(account.getPin())) {
@@ -70,7 +70,7 @@ public class AccountService {
         } else {
             account.incrementWrongAttempt();
             accountsRepository.save(account);
-            throw new WrongPinException("Pin is not correct");
+            throw new WrongPinException();
         }
 
         return account;
