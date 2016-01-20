@@ -24,10 +24,10 @@ public class RootController {
 
     @RequestMapping(value = "/pin_enter", method = RequestMethod.POST)
     public String showEnterPinPage(Model model,
-                                   @RequestParam(name = "card") String cardNumber) {
+                                   @RequestParam String card) {
 
-        if (service.checkCardNumber(cardNumber)) {
-            model.addAttribute("card", cardNumber);
+        if (service.checkCardNumber(card)) {
+            model.addAttribute("card", card);
             return "pin_enter";
         }
         model.addAttribute("message", "Card isn't found");
@@ -36,10 +36,10 @@ public class RootController {
 
     @RequestMapping(value = "/cabinet", method = RequestMethod.POST)
     public String checkPinCodeAndEnterToSystem(Model model,
-                                               @RequestParam(name = "pin") String pin,
-                                               @RequestParam(name = "card") String cardNumber) {
+                                               @RequestParam String pin,
+                                               @RequestParam String card) {
         try {
-            Account account = service.checkAndGetAccount(cardNumber, pin);
+            Account account = service.checkAndGetAccount(card, pin);
             model.addAttribute("card", account.getNumber());
             return "cabinet";
         } catch (LockedAccountException | WrongPinException exception) {
@@ -51,12 +51,12 @@ public class RootController {
 
     @RequestMapping(value = "/withdraw_result", method = RequestMethod.POST)
     public String showWithdrawResultPage(Model model,
-                                         @RequestParam(name = "card") String cardNumber,
-                                         @RequestParam(name = "sum") int sum) {
+                                         @RequestParam String card,
+                                         @RequestParam int sum) {
 
-        Account accountAfterWithdraw = service.withdraw(cardNumber, sum);
+        Account accountAfterWithdraw = service.withdraw(card, sum);
         model.addAttribute("account", accountAfterWithdraw);
-        model.addAttribute("card", cardNumber);
+        model.addAttribute("card", card);
         model.addAttribute("sum", sum);
         return "withdraw_result";
     }
