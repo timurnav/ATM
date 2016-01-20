@@ -31,7 +31,6 @@
     var $field = $('#visible_field');
     var $hiddenField = $('#hidden_field');
     var $keys = $('.keys button');
-    var count = $hiddenField.val().length;
     maxCount = 16;
     fieldMask = '____-____-____-____';
 
@@ -39,20 +38,23 @@
         var val = this.textContent;
         switch (val) {
             case "C":
-                $field.val('');
-                $hiddenField.val('');
-                count = 0;
+                clearField();
                 break;
             case "Ok":
-                sentForm();
+                sendForm();
                 break;
             default:
                 addNumberIfNecessary(val);
         }
     });
 
+    function clearField() {
+        $field.val('');
+        $hiddenField.val('');
+    }
+
     function addNumberIfNecessary(val) {
-        switch (count) {
+        switch ($('#hidden_field').val().length) {
             case maxCount:
                 break;
             case 0:
@@ -60,12 +62,11 @@
             default:
                 $field.val($field.val().replace("_", val));
                 $hiddenField.val($hiddenField.val() + val);
-                count++;
         }
     }
 
-    function sentForm() {
-        if (count == maxCount) {
+    function sendForm() {
+        if ($('#hidden_field').val().length == maxCount) {
             $('#form').submit();
         } else {
             alert('Expected 16 numbers');

@@ -16,7 +16,7 @@
     <div class="main_frame">
 
         <h2 class="form-signin-heading">Enter pin code</h2>
-        <form id="form" class="form-signin" action="private_cabinet" method="POST">
+        <form id="form" class="form-signin" action="cabinet" method="POST">
             <input type="hidden" name="card" value="${card}" id="card">
             <input type="hidden" name="pin" id="hidden_field">
             <input type=text id="visible_field" class="form-control" required readonly>
@@ -28,8 +28,8 @@
 </body>
 <script type="text/javascript">
 
-    var $field = $(document).find('#visible_field');
-    var $hiddenField = $(document).find('#hidden_field');
+    var $field = $('#visible_field');
+    var $hiddenField = $('#hidden_field');
     var $keys = $('.keys button');
     var count = $hiddenField.val().length;
     maxCount = 4;
@@ -42,7 +42,7 @@
                 clearField();
                 break;
             case "Ok":
-                sentForm();
+                sendForm();
                 break;
             default:
                 addNumberIfNecessary(val);
@@ -69,7 +69,7 @@
         }
     }
 
-    function sentForm() {
+    function sendForm() {
         if (count == maxCount) {
             $('#form').submit();
         } else {

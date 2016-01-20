@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <title>Operations</title>
@@ -68,9 +69,10 @@
                 </div>
                 <div class="right-block">
                     <form id="form" class="form-signin" action="cards" method="POST">
-                        <input type="hidden" name="card" id="hidden_field">
+                        <input type="hidden" name="card" value="${card}">
+                        <input type="hidden" id="hidden_field" name="amount">
                         <input type=text id="visible_field" class="form-control"
-                               placeholder="0000-0000-0000-0000" required readonly>
+                               placeholder="0" required readonly>
                     </form>
                     <jsp:include page="fragments/keypad.jsp"/>
                 </div>
@@ -78,6 +80,55 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="editRow">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h2 class="modal-title">Withdraw report</h2>
+            </div>
+            <div class="modal-body">
+                <%--
+                                <form:form class="form-horizontal" method="post" id="detailsForm">
+                                    <input type="hidden" id="id" name="id">
+
+
+                                    <div class="form-group">
+                                        <label for="dateTime" class="control-label col-xs-3">Date</label>
+
+                                        <div class="col-xs-9">
+                                            <input type="datetime" class="form-control datetime-picker" id="dateTime"
+                                                   name="dateTime" placeholder="Date">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="description" class="control-label col-xs-3">Description</label>
+
+                                        <div class="col-xs-9">
+                                            <input type="text" class="form-control" id="description" name="description"
+                                                   placeholder="Description">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="calories" class="control-label col-xs-3">Calories</label>
+
+                                        <div class="col-xs-9">
+                                            <input type="number" class="form-control" id="calories" name="calories"
+                                                   placeholder="2000">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-xs-offset-3 col-xs-9">
+                                            <button type="submit" class="btn btn-primary">Save</button>
+                                        </div>
+                                    </div>
+                                </form:form>
+                --%>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 <script>
     $('#show_balance_button').on('click', function () {
@@ -98,5 +149,64 @@
         $('.image').show();
         $('.account-info').hide();
     });
+
+    var $field = $('#visible_field');
+    var $hiddenField = $('#hidden_field');
+    var $keys = $('.keys button');
+    maxCount = 9;
+
+    $keys.on('click', function () {
+        var val = this.textContent;
+        switch (val) {
+            case "C":
+                clearField();
+                break;
+            case "Ok":
+                sendForm();
+                break;
+            default:
+                addNumberIfNecessary(val);
+        }
+    });
+
+    function clearField() {
+        $field.val('');
+        $hiddenField.val('');
+    }
+
+    function addNumberIfNecessary(val) {
+        switch ($('#hidden_field').val().length) {
+            case maxCount:
+                break;
+            case 3:
+            case 6:
+                $field.val($field.val() + ' ');
+            default:
+                $field.val($field.val() + val);
+                $hiddenField.val($hiddenField.val() + val);
+                count++;
+        }
+    }
+
+    function sendForm() {
+        var value = $('#hidden_field').val();
+        if (value.length > maxCount) {
+            alert('Too big value');
+        } else {
+//            $('#form').submit();
+            update(1);
+        }
+    }
+
+    function update(id) {
+//        var form = $('#detailsForm');
+//        $.get(ajaxUrl + id, function (data) {
+//            $.each(data, function (key, value) {
+//                form.find("input[name='" + key + "']").val(value);
+//            });
+        $('#editRow').modal();
+//        });
+    }
+
 </script>
 </html>

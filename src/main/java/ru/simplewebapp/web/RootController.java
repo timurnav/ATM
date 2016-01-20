@@ -34,27 +34,19 @@ public class RootController {
         return "failed";
     }
 
-    @RequestMapping(value = "/private_cabinet", method = RequestMethod.POST)
+    @RequestMapping(value = "/cabinet", method = RequestMethod.POST)
     public String checkPinCodeAndEnterToSystem(Model model,
                                                @RequestParam(name = "pin") String pin,
                                                @RequestParam(name = "card") String cardNumber) {
         try {
             Account account = service.checkAndGetAccount(cardNumber, pin);
             model.addAttribute("card", account.getNumber());
-            return "private_cabinet";
+            return "cabinet";
         } catch (LockedAccountException | WrongPinException exception) {
             model.addAttribute("message", exception.getMessage());
             return "failed";
         }
 
-    }
-
-    @RequestMapping(value = "/withdraw", method = RequestMethod.POST)
-    public String withdraw(Model model,
-                           @RequestParam(name = "card") long cardNumber) {
-
-        model.addAttribute("card", cardNumber);
-        return "withdraw";
     }
 
     @RequestMapping(value = "/withdraw_result", method = RequestMethod.POST)
@@ -66,13 +58,6 @@ public class RootController {
         model.addAttribute("account", accountAfterWithdraw);
         model.addAttribute("card", cardNumber);
         model.addAttribute("sum", sum);
-
         return "withdraw_result";
     }
-
-    @RequestMapping(value = "/exit", method = RequestMethod.POST)
-    public String logout(Model model) {
-        return "redirect:/";
-    }
-
 }
