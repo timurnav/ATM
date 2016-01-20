@@ -52,11 +52,12 @@
                     <div class="account-info" hidden>
                         <%--<jsp:useBean id="account" type="ru.simplewebapp.model.Account" scope="request"/>--%>
                         <div class="account_info">
-                            <h3>
-                                <span id="number"></span><br>
-                                <span id="datetime"></span><br>
-                                <span id="balance"></span><br>
-                            </h3>
+                            Your card number is
+                            <span id="number"></span><br>
+                            Last transaction time is
+                            <span id="datetime"></span><br>
+                            Your balance is
+                            <span id="balance"></span><br>
                         </div>
                     </div>
                 </div>
@@ -86,9 +87,9 @@
             success: function (data) {
                 $('.image').hide();
                 $('.account-info').show();
-                $('#number').text('Your card number is ' + data.number);
-                $('#datetime').text('Last transaction time is ' + data.dateTime);
-                $('#balance').text('Your balance is $' + data.balance);
+                $('#number').text(data.number);
+                $('#datetime').text(data.dateTime);
+                $('#balance').text('$' + data.balance / 100 + '.' + data.balance % 100);
             }
         });
     });
