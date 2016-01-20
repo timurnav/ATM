@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<div class="container">
+<div class="container" id="thin">
     <div class="main_frame">
 
         <h2 class="form-signin-heading">Enter card number</h2>
@@ -38,7 +38,7 @@
     $keys.on('click', function () {
         var val = this.textContent;
         switch (val) {
-            case "Clear":
+            case "C":
                 $field.val('');
                 $hiddenField.val('');
                 count = 0;

@@ -1,4 +1,4 @@
-<div class="keypad">
+<div class="keypad" id="keypad">
     <div class="keys">
         <button type="button" class="btn btn-info btn-xs">7</button>
         <button type="button" class="btn btn-info btn-xs">8</button>
@@ -15,7 +15,7 @@
         <button type="button" class="btn btn-info btn-xs">3</button>
     </div>
     <div class="keys">
-        <button type="button" class="btn btn-warning btn-xs">Clear</button>
+        <button type="button" class="btn btn-warning btn-xs">C</button>
         <button type="button" class="btn btn-info btn-xs">0</button>
         <button type="button" class="btn btn-success btn-xs">Ok</button>
     </div>

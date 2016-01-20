@@ -1,4 +1,4 @@
-<div class="navbar navbar-fixed-top" role="navigation">
+<div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
     <div class="container">
 
         <div class="navbar-header navbar-brand">Internet bank</div>
@@ -10,4 +10,3 @@
         </div>
     </div>
 </div>
-<br>

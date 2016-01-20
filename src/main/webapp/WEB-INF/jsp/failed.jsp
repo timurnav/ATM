@@ -7,11 +7,12 @@
 </head>
 <body>
 <jsp:include page="fragments/logout_header.jsp"/>
-<div class="container">
-    ${message}
-    <br>
 
-    <button type="button" class="btn btn-info btn-xs" onclick="window.history.back()">Back</button>
+<div class="container" id="failure">
+    <hr>
+    <h2>${message}</h2>
+    <hr>
+    <button type="button" class="btn btn-info btn-lg" onclick="window.history.back()">Back</button>
 </div>
 </body>
 </html>

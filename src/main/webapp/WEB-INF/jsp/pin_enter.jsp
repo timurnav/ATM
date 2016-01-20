@@ -11,8 +11,8 @@
     <title>ATM</title>
 </head>
 <body>
-<jsp:include page="fragments/logout_header.jsp"/>
-<div class="container">
+<div class="container" id="thin">
+    <jsp:include page="fragments/logout_header.jsp"/>
     <div class="main_frame">
 
         <h2 class="form-signin-heading">Enter pin code</h2>
@@ -38,7 +38,7 @@
     $keys.on('click', function () {
         var val = this.textContent;
         switch (val) {
-            case "Clear":
+            case "C":
                 clearField();
                 break;
             case "Ok":

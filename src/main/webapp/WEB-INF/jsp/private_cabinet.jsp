@@ -11,6 +11,7 @@
 <jsp:include page="fragments/logout_header.jsp"/>
 <div class="main_frame">
     <div class="container">
+        <br>
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
             <li><a data-toggle="tab" href="#balance">Balance</a></li>
