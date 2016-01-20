@@ -19,5 +19,10 @@ public class AccountController {
         return new AccountTO(account);
     }
 
+    @RequestMapping(value = "/withdraw/{card}", method = RequestMethod.POST)
+    public void withdraw(@PathVariable("card") String number,
+                         @RequestParam("amount") int amount) {
+        service.withdraw(number, amount);
+    }
 
 }

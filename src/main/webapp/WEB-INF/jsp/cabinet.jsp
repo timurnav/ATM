@@ -75,7 +75,7 @@
                     </c:forEach>
                 </div>
                 <div class="right-block">
-                    <form id="form" class="form-signin" action="cards" method="POST">
+                    <form id="form" class="form-signin" action="withdraw" method="POST">
                         <input type="hidden" name="card" value="${card}">
                         <input type="hidden" id="hidden_field" name="amount">
                         <input type=text id="visible_field" class="form-control"
@@ -109,6 +109,12 @@
 
 </body>
 <script>
+
+    var $field = $('#visible_field');
+    var $hiddenField = $('#hidden_field');
+    var $keys = $('.keys button');
+    maxCount = 9;
+
     $('#show_balance_button').on('click', function () {
         $.ajax({
             type: "GET",
@@ -128,11 +134,6 @@
         $('.account-info').hide();
     });
 
-    var $field = $('#visible_field');
-    var $hiddenField = $('#hidden_field');
-    var $keys = $('.keys button');
-    maxCount = 9;
-
     $keys.on('click', function () {
         var val = this.textContent;
         switch (val) {
@@ -149,7 +150,9 @@
             case "500":
             case "1000":
                 clearField();
+                addNumberIfNecessary(val);
                 withdrawMoney(val);
+                break;
             default:
                 addNumberIfNecessary(val);
         }
@@ -174,8 +177,18 @@
         }
     }
 
-    function withdrawMoney(value) {
-//            $('#form').submit();
+    function withdrawMoney(val) {
+        $.ajax({
+            url: "withdraw/${card}",
+            type: 'POST',
+            data: 'amount=' + $hiddenField.val(),
+            success: function () {
+                showResultOfWithdraw(val);
+            }
+        });
+    }
+
+    function showResultOfWithdraw(val) {
         $.ajax({
             type: "GET",
             url: "balance/${card}",
@@ -184,7 +197,7 @@
                 $('#number_report').text(data.number);
                 $('#datetime_report').text(data.dateTime);
                 $('#balance_report').text('$' + data.balance / 100 + '.' + data.balance % 100);
-                $('#withdrawn_report').text('$' + value + '.00');
+                $('#withdrawn_report').text('$' + val + '.00');
             }
         });
     }
