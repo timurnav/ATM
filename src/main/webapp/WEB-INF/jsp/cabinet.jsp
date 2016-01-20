@@ -140,7 +140,7 @@
                 clearField();
                 break;
             case "Ok":
-                withdrawMoney(val);
+                withdrawMoney($hiddenField.val());
                 break;
             case "20":
             case "50":
