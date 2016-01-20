@@ -173,19 +173,23 @@
             default:
                 $field.val($field.val() + val);
                 $hiddenField.val($hiddenField.val() + val);
-                count++;
         }
     }
 
-    function withdrawMoney(val) {
-        $.ajax({
-            url: "withdraw/${card}",
-            type: 'POST',
-            data: 'amount=' + $hiddenField.val(),
-            success: function () {
-                showResultOfWithdraw(val);
-            }
-        });
+    function withdrawMoney() {
+        var val = $('#hidden_field').val();
+        if (val % 10 == 0) {
+            $.ajax({
+                url: "withdraw/${card}",
+                type: 'POST',
+                data: 'amount=' + val + '00',
+                success: function () {
+                    showResultOfWithdraw(val);
+                }
+            });
+        } else {
+            alert('There are no such denominations in ATM.\nThe smallest denomination is $10');
+        }
     }
 
     function showResultOfWithdraw(val) {
