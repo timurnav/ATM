@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
     <title>Operations</title>
@@ -65,7 +66,13 @@
             </div>
             <div id="withdraw_tab" class="tab-pane fade">
                 <div class="left-block">
-
+                    To withdraw cash input required value in the input field on right
+                    or click a corresponding number below
+                    <c:forEach var="num" items="<%=new int[]{20, 50, 100, 200, 500, 1000}%>">
+                        <div class="keys">
+                            <button type="button" class="btn btn-info btn-lg">${num}</button>
+                        </div>
+                    </c:forEach>
                 </div>
                 <div class="right-block">
                     <form id="form" class="form-signin" action="cards" method="POST">
@@ -88,42 +95,13 @@
                 <h2 class="modal-title">Withdraw report</h2>
             </div>
             <div class="modal-body">
-                <%--
-                                <form:form class="form-horizontal" method="post" id="detailsForm">
-                                    <input type="hidden" id="id" name="id">
-
-
-                                    <div class="form-group">
-                                        <label for="dateTime" class="control-label col-xs-3">Date</label>
-
-                                        <div class="col-xs-9">
-                                            <input type="datetime" class="form-control datetime-picker" id="dateTime"
-                                                   name="dateTime" placeholder="Date">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="description" class="control-label col-xs-3">Description</label>
-
-                                        <div class="col-xs-9">
-                                            <input type="text" class="form-control" id="description" name="description"
-                                                   placeholder="Description">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="calories" class="control-label col-xs-3">Calories</label>
-
-                                        <div class="col-xs-9">
-                                            <input type="number" class="form-control" id="calories" name="calories"
-                                                   placeholder="2000">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-xs-offset-3 col-xs-9">
-                                            <button type="submit" class="btn btn-primary">Save</button>
-                                        </div>
-                                    </div>
-                                </form:form>
-                --%>
+                <span id="number_report"></span><br>
+                Transaction time is
+                <span id="datetime_report"></span><br>
+                Withdrawn from your account
+                <span id="withdrawn_report"></span><br>
+                Your balance is
+                <span id="balance_report"></span><br>
             </div>
         </div>
     </div>
@@ -162,8 +140,16 @@
                 clearField();
                 break;
             case "Ok":
-                sendForm();
+                withdrawMoney(val);
                 break;
+            case "20":
+            case "50":
+            case "100":
+            case "200":
+            case "500":
+            case "1000":
+                clearField();
+                withdrawMoney(val);
             default:
                 addNumberIfNecessary(val);
         }
@@ -188,24 +174,19 @@
         }
     }
 
-    function sendForm() {
-        var value = $('#hidden_field').val();
-        if (value.length > maxCount) {
-            alert('Too big value');
-        } else {
+    function withdrawMoney(value) {
 //            $('#form').submit();
-            update(1);
-        }
-    }
-
-    function update(id) {
-//        var form = $('#detailsForm');
-//        $.get(ajaxUrl + id, function (data) {
-//            $.each(data, function (key, value) {
-//                form.find("input[name='" + key + "']").val(value);
-//            });
-        $('#editRow').modal();
-//        });
+        $.ajax({
+            type: "GET",
+            url: "balance/${card}",
+            success: function (data) {
+                $('#editRow').modal();
+                $('#number_report').text(data.number);
+                $('#datetime_report').text(data.dateTime);
+                $('#balance_report').text('$' + data.balance / 100 + '.' + data.balance % 100);
+                $('#withdrawn_report').text('$' + value + '.00');
+            }
+        });
     }
 
 </script>
