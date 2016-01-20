@@ -13,13 +13,13 @@
     <div class="container">
         <br>
         <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
-            <li><a data-toggle="tab" href="#balance">Balance</a></li>
-            <li><a data-toggle="tab" href="#withdraw">Withdraw</a></li>
+            <li class="active"><a data-toggle="tab" href="#home_tab">Home</a></li>
+            <li><a data-toggle="tab" href="#balance_tab">Balance</a></li>
+            <li><a data-toggle="tab" href="#withdraw_tab">Withdraw</a></li>
         </ul>
 
         <div class="tab-content">
-            <div id="home" class="tab-pane fade in active">
+            <div id="home_tab" class="tab-pane fade in active">
                 <div class="left-block">
                     <h3>Добро пожаловать в интернет-банкинг вашего любимого банка</h3>
                     <p>Мы с большим удовольствием наживаемся на ваших деньгах изо дня в день, спасибо что вы выбрали
@@ -34,19 +34,34 @@
                          height="320">
                 </div>
             </div>
-            <div id="balance" class="tab-pane fade">
+            <div id="balance_tab" class="tab-pane fade">
                 <div class="left-block">
-                    <button type="button" class="btn btn-info btn-xs" onclick="printBalance()">Show account info
+                    <button type="button" id="show_balance_button" class="btn btn-info btn-lg image">Show account info
                     </button>
+                    <div class="account-info" hidden>
+                        <button type="button" id="show_image" class="btn btn-info btn-lg account_info">
+                            Return that beautiful picture
+                        </button>
+                    </div>
                 </div>
                 <div class="right-block">
-                    <div id="image">
+                    <div class="image">
                         <img src="resources/images/atm_img.png" class="img-rounded" alt="Cinque Terre" width="450"
                              height="320">
                     </div>
+                    <div class="account-info" hidden>
+                        <%--<jsp:useBean id="account" type="ru.simplewebapp.model.Account" scope="request"/>--%>
+                        <div class="account_info">
+                            <h3>
+                                <span id="number"></span><br>
+                                <span id="datetime"></span><br>
+                                <span id="balance"></span><br>
+                            </h3>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div id="withdraw" class="tab-pane fade">
+            <div id="withdraw_tab" class="tab-pane fade">
                 <div class="left-block">
 
                 </div>
@@ -64,16 +79,23 @@
 </div>
 </body>
 <script>
-    function printBalance() {
+    $('#show_balance_button').on('click', function () {
         $.ajax({
-            type: "POST",
-            url: "balance",
-            data: "card=${card}",
+            type: "GET",
+            url: "balance/${card}",
             success: function (data) {
-                $('#image').hide();
-                alert(data);
+                $('.image').hide();
+                $('.account-info').show();
+                $('#number').text('Your card number is ' + data.number);
+                $('#datetime').text('Last transaction time is ' + data.dateTime);
+                $('#balance').text('Your balance is $' + data.balance);
             }
         });
-    }
+    });
+
+    $('#show_image').on('click', function () {
+        $('.image').show();
+        $('.account-info').hide();
+    });
 </script>
 </html>

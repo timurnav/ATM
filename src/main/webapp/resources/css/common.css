@@ -32,6 +32,7 @@ body {
     padding: 1%;
     margin: 0 auto;
 }
+
 .form-signin-heading {
     font-size: 250%;
     text-align: center;
@@ -41,13 +42,13 @@ body {
     position: relative;
     height: auto;
     width: 100%;
-    padding: 5%;
-    font-size: 250%;
+    padding: 2%;
+    font-size: 215%;
     text-align: center;
 }
 
 .keypad button {
-    width: 30%;
+    width: 32%;
     height: 15%;
     font-size: 300%;
     border-radius: 15%;

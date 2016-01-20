@@ -6,7 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import ru.simplewebapp.model.Account;
 import ru.simplewebapp.service.AccountService;
 import ru.simplewebapp.util.exception.LockedAccountException;
@@ -25,7 +24,7 @@ public class RootController {
 
     @RequestMapping(value = "/pin_enter", method = RequestMethod.POST)
     public String showEnterPinPage(Model model,
-                        @RequestParam(name = "card") String cardNumber) {
+                                   @RequestParam(name = "card") String cardNumber) {
 
         if (service.checkCardNumber(cardNumber)) {
             model.addAttribute("card", cardNumber);
@@ -50,18 +49,9 @@ public class RootController {
 
     }
 
-    @ResponseBody
-    @RequestMapping(value = "/balance", method = RequestMethod.POST)
-    public String checkBalance(Model model,
-                        @RequestParam(name = "card") String number) {
-        Account account = service.getBalanceByNumber(number);
-        model.addAttribute("account", account);
-        return "balance";
-    }
-
     @RequestMapping(value = "/withdraw", method = RequestMethod.POST)
     public String withdraw(Model model,
-                          @RequestParam(name = "card") long cardNumber) {
+                           @RequestParam(name = "card") long cardNumber) {
 
         model.addAttribute("card", cardNumber);
         return "withdraw";
@@ -69,8 +59,8 @@ public class RootController {
 
     @RequestMapping(value = "/withdraw_result", method = RequestMethod.POST)
     public String showWithdrawResultPage(Model model,
-                           @RequestParam(name = "card") String cardNumber,
-                           @RequestParam(name = "sum") int sum) {
+                                         @RequestParam(name = "card") String cardNumber,
+                                         @RequestParam(name = "sum") int sum) {
 
         Account accountAfterWithdraw = service.withdraw(cardNumber, sum);
         model.addAttribute("account", accountAfterWithdraw);
