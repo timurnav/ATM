@@ -21,7 +21,7 @@ public class AccountController {
 
     @RequestMapping(value = "/withdraw/{card}", method = RequestMethod.POST)
     public void withdraw(@PathVariable String card,
-                         @RequestParam("amount") int amount) {
+                         @RequestParam int amount) {
         service.withdraw(card, amount);
     }
 
