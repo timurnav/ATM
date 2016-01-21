@@ -14,8 +14,8 @@ public class AccountController {
     AccountService service;
 
     @RequestMapping(value = "/balance/{card}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public AccountTO get(@PathVariable("card") String number) {
-        Account account = service.getBalanceByNumber(number);
+    public AccountTO get(@PathVariable String card) {
+        Account account = service.getBalanceByNumber(card);
         return new AccountTO(account);
     }
 
