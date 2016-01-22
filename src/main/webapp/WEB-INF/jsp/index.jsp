@@ -44,7 +44,7 @@
                 sendForm();
                 break;
             default:
-                addNumberIfNecessary(val);
+                    addNumberIfNecessary(val);
         }
     });
 
