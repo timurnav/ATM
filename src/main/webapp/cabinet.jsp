@@ -16,7 +16,7 @@
         <br>
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#home_tab">Home</a></li>
-            <li><a data-toggle="tab" href="#balance_tab">Balance</a></li>
+            <li><a data-toggle="tab" href="#balance_tab" id="balance-tab-button">Balance</a></li>
             <li><a data-toggle="tab" href="#withdraw_tab">Withdraw</a></li>
         </ul>
 
@@ -114,24 +114,37 @@
     var $hiddenField = $('#hidden_field');
     var $keys = $('.keys button');
     maxCount = 9;
+    var isInfoShown = false;
 
     $('#show_balance_button').on('click', function () {
+        updateBalanceInfo();
+    });
+
+    $('#balance-tab-button').on('click', function () {
+        if (isInfoShown) {
+            updateBalanceInfo();
+        }
+    });
+
+    function updateBalanceInfo() {
         $.ajax({
             type: "GET",
             url: "balance/${card}",
             success: function (data) {
+                isInfoShown = true;
                 $('.image').hide();
                 $('.account-info').show();
                 $('#number').text(data.number);
                 $('#datetime').text(data.dateTime);
-                $('#balance').text('$' + data.balance / 100 + '.' + data.balance % 100);
+                $('#balance').text('$' + data.balance / 100);
             }
         });
-    });
+    }
 
     $('#show_image').on('click', function () {
         $('.image').show();
         $('.account-info').hide();
+        isInfoShown = false;
     });
 
     $keys.on('click', function () {
@@ -200,7 +213,7 @@
                 $('#editRow').modal();
                 $('#number_report').text(data.number);
                 $('#datetime_report').text(data.dateTime);
-                $('#balance_report').text('$' + data.balance / 100 + '.' + data.balance % 100);
+                $('#balance_report').text('$' + data.balance / 100);
                 $('#withdrawn_report').text('$' + val + '.00');
             }
         });
