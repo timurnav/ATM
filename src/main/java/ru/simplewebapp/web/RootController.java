@@ -19,7 +19,7 @@ public class RootController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String root() {
-        return "index";
+        return "/index.jsp";
     }
 
     @RequestMapping(value = "/pin_enter", method = RequestMethod.POST)
@@ -28,10 +28,10 @@ public class RootController {
 
         if (service.checkCardNumber(card)) {
             model.addAttribute("card", card);
-            return "pin_enter";
+            return "/pin_enter.jsp";
         }
         model.addAttribute("message", "Card isn't found");
-        return "failed";
+        return "/failed.jsp";
     }
 
     @RequestMapping(value = "/cabinet", method = RequestMethod.POST)
@@ -41,10 +41,10 @@ public class RootController {
         try {
             Account account = service.checkAndGetAccount(card, pin);
             model.addAttribute("card", account.getNumber());
-            return "cabinet";
+            return "/cabinet.jsp";
         } catch (LockedAccountException | WrongPinException exception) {
             model.addAttribute("message", exception.getMessage());
-            return "failed";
+            return "/failed.jsp";
         }
 
     }
