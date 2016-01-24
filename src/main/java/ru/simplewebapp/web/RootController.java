@@ -3,6 +3,7 @@ package ru.simplewebapp.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,10 +35,35 @@ public class RootController {
         return "/failed";
     }
 
+    @RequestMapping(value = "/cabinet", method = RequestMethod.GET)
+    public String cabinet() {
+        System.out.println("===============================================");
+        System.out.println("===============================================");
+        System.out.println("===============================================");
+        System.out.println("===============================================");
+        System.out.println("===============================================");
+        System.out.println("===============================================");
+        System.out.println("===============================================");
+        System.out.println("===============================================");
+        System.out.println("===============================================");
+        System.out.println("===============================================");
+        System.out.println("===============================================");
+        System.out.println("===============================================");
+        System.out.println("===============================================");
+        System.out.println("===============================================");
+        System.out.println("===============================================");
+        System.out.println("===============================================");
+        System.out.println("===============================================");
+        System.out.println("===============================================");
+        System.out.println("===============================================");
+        System.out.println("===============================================");
+        return "/failed";
+    }
+
     @RequestMapping(value = "/cabinet", method = RequestMethod.POST)
     public String checkPinCodeAndEnterToSystem(Model model,
-                                               @RequestParam String pin,
-                                               @RequestParam String card) {
+                                               @RequestParam(required = false) String pin,
+                                               @RequestParam(required = false) String card) {
         try {
             Account account = service.checkAndGetAccount(card, pin);
             model.addAttribute("card", account.getNumber());
@@ -47,5 +73,16 @@ public class RootController {
             return "/failed";
         }
 
+    }
+
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String login(ModelMap model,
+                        @RequestParam(value = "error", required = false) boolean error,
+                        @RequestParam(value = "message", required = false) String message) {
+
+        model.put("error", error);
+        model.put("message", message);
+        return "login";
     }
 }

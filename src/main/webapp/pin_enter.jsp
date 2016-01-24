@@ -12,7 +12,7 @@
 </head>
 <body>
 <div class="container" id="thin">
-    <jsp:include page="fragments/logout_header.jsp"/>
+    <jsp:include page="fragments/logout.jsp"/>
     <div class="main_frame">
 
         <h2 class="form-signin-heading">Enter pin code</h2>

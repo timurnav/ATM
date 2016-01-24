@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="resources/css/common.css">
 </head>
 <body>
-<jsp:include page="fragments/logout_header.jsp"/>
+<jsp:include page="fragments/logout.jsp"/>
 <div class="main_frame">
     <div class="container">
         <br>

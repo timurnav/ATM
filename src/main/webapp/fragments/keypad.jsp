@@ -15,7 +15,7 @@
         <button type="button" class="btn btn-info btn-xs">3</button>
     </div>
     <div class="keys">
-        <button type="button" class="btn btn-warning btn-xs">C</button>
+        <button type="button" id="button_clear" class="btn btn-warning btn-xs">C</button>
         <button type="button" class="btn btn-info btn-xs">0</button>
         <button type="button" class="btn btn-success btn-xs">Ok</button>
     </div>
