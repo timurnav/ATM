@@ -6,11 +6,20 @@
     <title>Something is wrong</title>
 </head>
 <body>
-<jsp:include page="fragments/logout_header.jsp"/>
+<jsp:include page="fragments/head.jsp"/>
 
 <div class="container" id="failure">
     <hr>
-    <h2>${message}</h2>
+    <c:if test="${error}">
+        <div class="error">
+                ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}
+        </div>
+    </c:if>
+    <c:if test="${not empty message}">
+        <div class="message">
+            <fmt:message key="${message}"/>
+        </div>
+    </c:if>
     <hr>
     <button type="button" class="btn btn-info btn-lg" onclick="window.history.back()">Back</button>
 </div>

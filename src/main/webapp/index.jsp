@@ -6,22 +6,13 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <script src="webjars/jquery/2.2.0/jquery.min.js"></script>
-
-    <script src="resources/js/particles/particles.js"></script>
-    <script src="resources/js/particles/app.js"></script>
-    <link rel="stylesheet" media="screen" href="resources/css/style.css">
-
     <link rel='stylesheet' href='webjars/bootstrap/3.1.0/css/bootstrap.min.css'>
     <link rel="stylesheet" href="resources/css/common.css">
-
     <title>ATM</title>
 </head>
 <body>
 
-<div id="particles-js"></div>
-
 <div class="container" id="thin">
-
     <div class="main_frame">
 
         <h2 class="form-signin-heading">Enter card number</h2>
@@ -34,8 +25,7 @@
     </div>
 </div>
 
-
-
+</body>
 <script type="text/javascript">
 
     var $field = $('#visible_field');
@@ -54,7 +44,7 @@
                 sendForm();
                 break;
             default:
-                addNumberIfNecessary(val);
+                    addNumberIfNecessary(val);
         }
     });
 
@@ -84,7 +74,4 @@
     }
 
 </script>
-
-</body>
-
 </html>

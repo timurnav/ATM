@@ -18,7 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class OperationServiceTests {
 
     @Autowired
-    protected AccountService accountService;
+    protected AccountServiceImpl accountService;
 
     @Autowired
     protected OperationService operationService;

@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="resources/css/cabinet.css">
 </head>
 <body>
-<jsp:include page="fragments/logout_header.jsp"/>
+<jsp:include page="fragments/head.jsp"/>
 <div class="main_frame">
     <div class="container">
         <br>
@@ -129,7 +129,7 @@
     function updateBalanceInfo() {
         $.ajax({
             type: "GET",
-            url: "balance/${card}",
+            url: "balance",
             success: function (data) {
                 isInfoShown = true;
                 $('.image').hide();
@@ -193,7 +193,7 @@
         var val = $('#hidden_field').val();
         if (val % 10 == 0) {
             $.ajax({
-                url: "withdraw/${card}",
+                url: "withdraw",
                 type: 'POST',
                 data: 'amount=' + val + '00',
                 success: function () {
@@ -208,7 +208,7 @@
     function showResultOfWithdraw(val) {
         $.ajax({
             type: "GET",
-            url: "balance/${card}",
+            url: "balance",
             success: function (data) {
                 $('#editRow').modal();
                 $('#number_report').text(data.number);
