@@ -7,7 +7,7 @@
     <link rel='stylesheet' href='webjars/bootstrap/3.1.0/css/bootstrap.min.css'>
     <script src="webjars/jquery/2.2.0/jquery.min.js"></script>
     <script src="webjars/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="resources/css/common.css">
+    <link rel="stylesheet" href="resources/css/cabinet.css">
 </head>
 <body>
 <jsp:include page="fragments/head.jsp"/>
