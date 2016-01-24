@@ -20,7 +20,7 @@ public class RootController {
     @Qualifier(value = "accountDetailService")
     AccountService service;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/*", method = RequestMethod.GET)
     public String index() {
         return "redirect:cabinet";
     }
@@ -43,6 +43,10 @@ public class RootController {
     public String login(ModelMap model,
                         @RequestParam(value = "error", required = false) boolean error,
                         @RequestParam(value = "message", required = false) String message) {
+
+        if (AuthenticatedAccount.unSafeGet() != null) {
+            return "redirect:cabinet";
+        }
 
         if (error || message != null) {
             model.put("error", error);

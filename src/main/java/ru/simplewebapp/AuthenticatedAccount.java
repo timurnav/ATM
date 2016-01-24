@@ -28,7 +28,7 @@ public class AuthenticatedAccount implements UserDetails, Serializable {
     public AuthenticatedAccount() {
     }
 
-    private static AuthenticatedAccount unSafeGet() {
+    public static AuthenticatedAccount unSafeGet() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null) {
             return null;
