@@ -1,0 +1,85 @@
+body {
+    /*make flexible*/
+    padding-top: 3%;
+    height: 100%;
+    background-color: #eee;
+}
+
+#failure {
+    padding: 0 5%;
+    margin: 0 auto;
+}
+
+#thin, #thin .container {
+    width: 40%;
+}
+
+.container {
+    margin: auto;
+    background-color: rgba(255, 242, 0, 0.39);
+    width: 65%;
+    height: 100%;
+}
+
+.main_frame {
+    margin: auto;
+    height: 100%;
+    border-radius: 5%;
+}
+
+.form-signin, .keypad, .keys {
+    max-width: 80%;
+    padding: 1%;
+    margin: 0 auto;
+}
+
+.form-signin-heading {
+    font-size: 250%;
+    text-align: center;
+}
+
+.form-signin .form-control {
+    position: relative;
+    height: auto;
+    width: 100%;
+    padding: 2%;
+    font-size: 215%;
+    text-align: center;
+}
+
+.keypad button {
+    width: 32%;
+    height: 15%;
+    font-size: 300%;
+    border-radius: 15%;
+}
+
+.left-block {
+    padding-top: 2%;
+    float: left;
+    width: 40%;
+}
+
+.right-block {
+    padding-top: 2%;
+    float: right;
+    width: 59%;
+
+}
+
+.error, .message {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    font-size: 16px;
+}
+.error {
+    color: #a94442;
+    background-color: #f2dede;
+    border: 1px solid #ebccd1;
+}
+.message {
+    color: #2f9635;
+    background-color: #c6fbc2;
+    border: 1px solid #9feba6;
+}
