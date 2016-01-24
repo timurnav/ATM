@@ -6,7 +6,7 @@
     <title>Something is wrong</title>
 </head>
 <body>
-<jsp:include page="fragments/logout.jsp"/>
+<jsp:include page="fragments/head.jsp"/>
 
 <div class="container" id="failure">
     <hr>

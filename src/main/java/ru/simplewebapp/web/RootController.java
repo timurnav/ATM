@@ -19,53 +19,15 @@ public class RootController {
     AccountService service;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String root() {
-        return "/index";
+    public String index() {
+        return "redirect:cabinet";
     }
 
-    @RequestMapping(value = "/pin_enter", method = RequestMethod.POST)
-    public String showEnterPinPage(Model model,
-                                   @RequestParam String card) {
-
-        if (service.checkCardNumber(card)) {
-            model.addAttribute("card", card);
-            return "/pin_enter";
-        }
-        model.addAttribute("message", "Card isn't found");
-        return "/failed";
-    }
 
     @RequestMapping(value = "/cabinet", method = RequestMethod.GET)
-    public String cabinet() {
-        System.out.println("===============================================");
-        System.out.println("===============================================");
-        System.out.println("===============================================");
-        System.out.println("===============================================");
-        System.out.println("===============================================");
-        System.out.println("===============================================");
-        System.out.println("===============================================");
-        System.out.println("===============================================");
-        System.out.println("===============================================");
-        System.out.println("===============================================");
-        System.out.println("===============================================");
-        System.out.println("===============================================");
-        System.out.println("===============================================");
-        System.out.println("===============================================");
-        System.out.println("===============================================");
-        System.out.println("===============================================");
-        System.out.println("===============================================");
-        System.out.println("===============================================");
-        System.out.println("===============================================");
-        System.out.println("===============================================");
-        return "/failed";
-    }
-
-    @RequestMapping(value = "/cabinet", method = RequestMethod.POST)
-    public String checkPinCodeAndEnterToSystem(Model model,
-                                               @RequestParam(required = false) String pin,
-                                               @RequestParam(required = false) String card) {
+    public String cabinet(Model model) {
         try {
-            Account account = service.checkAndGetAccount(card, pin);
+            Account account = service.getAccountByNumber("1111111111111111");
             model.addAttribute("card", account.getNumber());
             return "/cabinet";
         } catch (LockedAccountException | WrongPinException exception) {
@@ -81,8 +43,11 @@ public class RootController {
                         @RequestParam(value = "error", required = false) boolean error,
                         @RequestParam(value = "message", required = false) String message) {
 
-        model.put("error", error);
-        model.put("message", message);
+        if (error || message != null){
+            model.put("error", error);
+            model.put("message", message);
+            return "failed";
+        }
         return "login";
     }
 }

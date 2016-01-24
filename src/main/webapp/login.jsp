@@ -37,6 +37,8 @@
     var $keys = $('.keys button');
     var $buttonClear = $('#button_clear');
 
+    clearField();
+
     var readyToSend = false;
 
     maxCardCount = 16;
@@ -58,6 +60,7 @@
                     sendForm();
                 } else {
                     changeInputFields();
+                    clearField();
                 }
                 break;
             default:
