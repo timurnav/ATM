@@ -40,7 +40,7 @@ public class AccountServiceTests {
     public ExpectedException thrown = ExpectedException.none();
 
     @Autowired
-    protected AccountService accountService;
+    protected AccountServiceImpl accountService;
 
     @Autowired
     protected OperationService operationService;

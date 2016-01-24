@@ -20,20 +20,7 @@
         <csrf disabled="true"/>
     </http>
 
-<!--
-    <http>
-        <intercept-url pattern="/**" access="isAuthenticated()" />
-        <form-login/>
-        <logout/>
-        <csrf disabled="true"/>
-    </http>
--->
-
     <authentication-manager>
-        <authentication-provider>
-            <user-service>
-                <user name="1111111111111111" password="1234" authorities="USER"/>
-            </user-service>
-        </authentication-provider>
+        <authentication-provider user-service-ref="accountDetailService"/>
     </authentication-manager>
 </beans:beans>
