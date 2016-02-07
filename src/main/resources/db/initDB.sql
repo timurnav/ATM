@@ -6,21 +6,21 @@ CREATE SEQUENCE GLOBAL_SEQ START 100000;
 
 CREATE TABLE accounts
 (
-  id INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-  number VARCHAR NOT NULL,
-  pin VARCHAR NOT NULL,
-  balance INTEGER DEFAULT 0 NOT NULL,
-  attempt INTEGER DEFAULT 0 NOT NULL,
-  date_time    TIMESTAMP DEFAULT now()
+  id        INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+  number    VARCHAR           NOT NULL,
+  pin       VARCHAR           NOT NULL,
+  balance   INTEGER DEFAULT 0 NOT NULL,
+  attempt   INTEGER DEFAULT 0 NOT NULL,
+  date_time TIMESTAMP           DEFAULT now()
 );
 
 CREATE TABLE operations
 (
-  id INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-  date_time    TIMESTAMP DEFAULT now(),
-  amount INTEGER DEFAULT 0 NOT NULL,
-  account_id INTEGER DEFAULT 0 NOT NULL,
-  opt_type VARCHAR NOT NULL,
+  id         INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+  date_time  TIMESTAMP           DEFAULT now(),
+  amount     NUMERIC DEFAULT 0  NOT NULL,
+  account_id INTEGER DEFAULT 0  NOT NULL,
+  opt_type   VARCHAR            NOT NULL,
   FOREIGN KEY (account_id) REFERENCES ACCOUNTS (id) ON DELETE CASCADE
 );
 

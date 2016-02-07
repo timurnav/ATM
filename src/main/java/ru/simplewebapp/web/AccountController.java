@@ -26,7 +26,7 @@ public class AccountController {
     public ResponseEntity checkCardNumber(Model model,
                                           @RequestParam String card) {
 
-        if (service.checkCardNumber(card)) {
+        if (service.checkPresent(card)) {
             return new ResponseEntity(HttpStatus.ACCEPTED);
         }
         return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -35,7 +35,7 @@ public class AccountController {
     @RequestMapping(value = "/balance", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public AccountTO get() {
         String number = AuthenticatedAccount.get().getNumber();
-        Account account = service.getBalanceByNumber(number);
+        Account account = service.getBalance(number);
         return new AccountTO(account);
     }
 

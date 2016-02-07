@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.simplewebapp.AuthenticatedAccount;
 import ru.simplewebapp.service.AccountService;
-import ru.simplewebapp.util.exception.LockedAccountException;
-import ru.simplewebapp.util.exception.WrongPinException;
+import ru.simplewebapp.util.exception.AtmException;
 
 @Controller
 public class RootController {
@@ -25,19 +24,17 @@ public class RootController {
         return "redirect:cabinet";
     }
 
-
     @RequestMapping(value = "/cabinet", method = RequestMethod.GET)
     public String cabinet(Model model) {
         try {
             model.addAttribute("card", AuthenticatedAccount.get().getNumber());
             return "/cabinet";
-        } catch (LockedAccountException | WrongPinException exception) {
-            model.addAttribute("message", exception.getMessage());
+        } catch (AtmException e) {
+            model.addAttribute("message", e.getMessage());
             return "/failed";
         }
 
     }
-
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(ModelMap model,

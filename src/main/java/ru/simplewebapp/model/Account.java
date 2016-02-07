@@ -16,7 +16,7 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
     private Integer id;
 
-    @Column(name = "number", nullable = false)
+    @Column(name = "number", nullable = false, unique = true)
     @NotEmpty
     private String number;
 
@@ -24,8 +24,6 @@ public class Account {
     @NotEmpty
     private String pin;
 
-    // http://stackoverflow.com/questions/3730019/why-not-use-double-or-float-to-represent-currency
-    // in cents
     @Column(name = "balance", columnDefinition = "default 0")
     private Integer balance;
 
@@ -53,14 +51,6 @@ public class Account {
         this.attempt = attempt;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
     public LocalDateTime getDateTime() {
         return dateTime;
     }
@@ -71,10 +61,6 @@ public class Account {
 
     public String getNumber() {
         return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
     }
 
     public String getPin() {
@@ -89,16 +75,16 @@ public class Account {
         return balance;
     }
 
-    public void setBalance(Integer balance) {
-        this.balance = balance;
+    public void withdraw(Integer amount) {
+        balance -= amount;
+    }
+
+    public void deposit(Integer amount) {
+        balance += amount;
     }
 
     public Integer getAttempt() {
         return attempt;
-    }
-
-    public void setAttempt(Integer attempt) {
-        this.attempt = attempt;
     }
 
     public void cleanWrongAttempts() {

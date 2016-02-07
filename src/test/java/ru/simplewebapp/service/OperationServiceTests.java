@@ -27,7 +27,7 @@ public class OperationServiceTests {
     @Test
     public void testThatAfterBalanceRequestWeHaveNewOperationRecord() throws Exception {
         int optSize = operationService.getAll().size();
-        accountService.getBalanceByNumber(AccountServiceTests.ACCOUNT1_NUMBER);
+        accountService.getBalance(AccountServiceTests.ACCOUNT1_NUMBER);
         int optSizeAfter = operationService.getAll().size();
         Assert.assertEquals(optSize, optSizeAfter - 1);
     }

@@ -15,9 +15,7 @@ import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import ru.simplewebapp.model.Account;
-import ru.simplewebapp.util.exception.LockedAccountException;
-import ru.simplewebapp.util.exception.WrongOperationException;
-import ru.simplewebapp.util.exception.WrongPinException;
+import ru.simplewebapp.util.exception.AtmException;
 
 @ContextConfiguration({
         "classpath:spring/spring-db.xml"
@@ -52,13 +50,13 @@ public class AccountServiceTests {
 
     @Test
     public void testGetOne() throws Exception {
-        Assert.assertEquals(accountService.getAccountByNumber(ACCOUNT1_NUMBER).getNumber(), ACCOUNT1_NUMBER);
+        Assert.assertEquals(accountService.getAccount(ACCOUNT1_NUMBER).getNumber(), ACCOUNT1_NUMBER);
     }
 
 
     @Test
     public void testWithdrawOneCent() throws Exception {
-        Account account = accountService.getAccountByNumber(ACCOUNT1_NUMBER);
+        Account account = accountService.getAccount(ACCOUNT1_NUMBER);
         Integer minusOneCent = account.getBalance() - ONE_CENT;
         Account result = accountService.withdraw(ACCOUNT1_NUMBER, ONE_CENT);
         Assert.assertEquals(result.getBalance(), minusOneCent);
@@ -66,21 +64,21 @@ public class AccountServiceTests {
 
     @Test
     public void testWithdrawAllMoney() throws Exception {
-        Account account = accountService.getAccountByNumber(ACCOUNT1_NUMBER);
+        Account account = accountService.getAccount(ACCOUNT1_NUMBER);
         Account result = accountService.withdraw(ACCOUNT1_NUMBER, account.getBalance());
         Assert.assertEquals(result.getBalance(), new Integer(0));
     }
 
     @Test
     public void testWithdrawMoreThanOnBalance() throws Exception {
-        thrown.expect(WrongOperationException.class);
-        Account account = accountService.getAccountByNumber(ACCOUNT1_NUMBER);
+        thrown.expect(AtmException.class);
+        Account account = accountService.getAccount(ACCOUNT1_NUMBER);
         accountService.withdraw(ACCOUNT1_NUMBER, account.getBalance() + 1);
     }
 
     @Test
     public void testRejectAfterWrongPinAttempts() throws Exception {
-        thrown.expect(WrongPinException.class);
+        thrown.expect(AtmException.class);
         accountService.checkAndGetAccount(ACCOUNT1_NUMBER, ACCOUNT1_WRONG_PIN);
     }
 
@@ -88,34 +86,34 @@ public class AccountServiceTests {
     @Transactional
     @Test
     public void testAccountBlockedAfter4WrongAttempts() throws Exception {
-        thrown.expect(LockedAccountException.class);
+        thrown.expect(AtmException.class);
         try {
             accountService.checkAndGetAccount(ACCOUNT1_NUMBER, ACCOUNT1_WRONG_PIN);
-        } catch (WrongPinException exc) {
+        } catch (AtmException exc) {
             LOG.info("Wrong pin attempt during test 1");
         }
 
         try {
             accountService.checkAndGetAccount(ACCOUNT1_NUMBER, ACCOUNT1_WRONG_PIN);
-        } catch (WrongPinException exc) {
+        } catch (AtmException exc) {
             LOG.info("Wrong pin attempt during test 2");
         }
 
         try {
             accountService.checkAndGetAccount(ACCOUNT1_NUMBER, ACCOUNT1_WRONG_PIN);
-        } catch (WrongPinException exc) {
+        } catch (AtmException exc) {
             LOG.info("Wrong pin attempt during test 3");
         }
 
         try {
             accountService.checkAndGetAccount(ACCOUNT1_NUMBER, ACCOUNT1_WRONG_PIN);
-        } catch (WrongPinException exc) {
+        } catch (AtmException exc) {
             LOG.info("Wrong pin attempt during test 4");
         }
 
         try {
             accountService.checkAndGetAccount(ACCOUNT1_NUMBER, ACCOUNT1_WRONG_PIN);
-        } catch (WrongPinException exc) {
+        } catch (AtmException exc) {
             LOG.info("Wrong pin attempt during test 5 - should be LockedAccountException thrown");
         }
     }

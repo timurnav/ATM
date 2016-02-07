@@ -12,12 +12,14 @@ import ru.simplewebapp.model.Operation;
 import ru.simplewebapp.model.Type;
 import ru.simplewebapp.repository.AccountsRepository;
 import ru.simplewebapp.repository.OperationsRepository;
-import ru.simplewebapp.util.exception.LockedAccountException;
-import ru.simplewebapp.util.exception.WrongOperationException;
-import ru.simplewebapp.util.exception.WrongPinException;
+import ru.simplewebapp.util.exception.AtmException;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static ru.simplewebapp.util.exception.AtmException.ACCOUNT_WAS_LOCKED;
+import static ru.simplewebapp.util.exception.AtmException.ILLEGAL_OPERATION;
+import static ru.simplewebapp.util.exception.AtmException.WRONG_PIN;
 
 @Service("accountDetailService")
 public class AccountServiceImpl implements AccountService, UserDetailsService {
@@ -32,41 +34,42 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         return accountsRepository.findAll();
     }
 
-    public Account getAccountByNumber(String number) {
+    public Account getAccount(String number) {
         return accountsRepository.getByNumber(number);
     }
 
     @Transactional
-    public Account getBalanceByNumber(String number) {
+    public Account getBalance(String number) {
         Account account = accountsRepository.getByNumber(number);
         Operation operation = new Operation(Type.REQUEST_BALANCE, account, account.getDateTime());
         operationsRepository.save(operation);
         return account;
     }
 
-    public boolean checkCardNumber(String number) {
+    public boolean checkPresent(String number) {
         return accountsRepository.getByNumber(number) != null;
     }
 
     @Transactional
-    public Account withdraw(String number, Integer sum) {
-        Account account = getAccountByNumber(number);
+    public Account withdraw(String number, Integer amount) {
+        Account account = getAccount(number);
         Integer balance = account.getBalance();
-        if (sum > balance) {
-            throw new WrongOperationException();
+        if (amount > balance) {
+            throw new AtmException(ILLEGAL_OPERATION);
         }
-        account.setBalance(balance - sum);
+        account.withdraw(amount);
         account.setDateTime(LocalDateTime.now());
-        Operation operation = new Operation(Type.WITHDRAW, account, account.getDateTime(), sum);
+        Operation operation = new Operation(Type.WITHDRAW, account, account.getDateTime(), amount);
+        Account saved = accountsRepository.save(account);
         operationsRepository.save(operation);
-        return accountsRepository.save(account);
+        return saved;
     }
 
     @Transactional
     public Account checkAndGetAccount(String number, String pin) {
         Account account = accountsRepository.getByNumber(number);
         if (account.getAttempt() >= Account.MAX_ATTEMPTS) {
-            throw new LockedAccountException();
+            throw new AtmException(ACCOUNT_WAS_LOCKED);
         }
 
         if (pin.equals(account.getPin())) {
@@ -74,12 +77,18 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         } else {
             account.incrementWrongAttempt();
             accountsRepository.save(account);
-            throw new WrongPinException();
+            throw new AtmException(WRONG_PIN);
         }
 
         return account;
     }
 
+    /**
+     * This method is needed for spring security
+     * @param number - card number
+     * @return account for authentication
+     * @throws UsernameNotFoundException
+     */
 
     @Override
     public UserDetails loadUserByUsername(String number) throws UsernameNotFoundException {

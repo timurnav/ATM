@@ -8,11 +8,11 @@ public interface AccountService {
 
     List<Account> getAll();
 
-    Account getAccountByNumber(String number);
+    Account getAccount(String number);
 
-    Account getBalanceByNumber(String number);
+    Account getBalance(String number);
 
-    boolean checkCardNumber(String number);
+    boolean checkPresent(String number);
 
     Account withdraw(String number, Integer sum);
 
