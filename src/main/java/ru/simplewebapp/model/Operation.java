@@ -3,16 +3,10 @@ package ru.simplewebapp.model;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Entity
 @Table(name = "OPERATIONS")
-public class Operation {
-
-    @Id
-    @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
-    private Integer id;
+public class Operation extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "opt_type")

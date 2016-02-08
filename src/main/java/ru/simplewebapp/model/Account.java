@@ -7,14 +7,9 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "ACCOUNTS")
-public class Account {
+public class Account extends BaseEntity{
 
     public static final Integer MAX_ATTEMPTS = 4;
-
-    @Id
-    @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
-    private Integer id;
 
     @Column(name = "number", nullable = false, unique = true)
     @NotEmpty
