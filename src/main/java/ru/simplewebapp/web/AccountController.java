@@ -16,7 +16,7 @@ import ru.simplewebapp.service.AccountService;
 import ru.simplewebapp.util.AccountTO;
 
 @RestController
-public class AccountController {
+public class AccountController implements ExceptionInfoHandler {
 
     @Autowired
     @Qualifier(value = "accountDetailService")
@@ -25,11 +25,8 @@ public class AccountController {
     @RequestMapping(value = "/card", method = RequestMethod.POST)
     public ResponseEntity checkCardNumber(Model model,
                                           @RequestParam String card) {
-
-        if (service.checkPresent(card)) {
-            return new ResponseEntity(HttpStatus.ACCEPTED);
-        }
-        return new ResponseEntity(HttpStatus.NOT_FOUND);
+        service.checkPresent(card);
+        return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(value = "/balance", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

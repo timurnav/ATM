@@ -12,14 +12,14 @@ import ru.simplewebapp.model.Operation;
 import ru.simplewebapp.model.Type;
 import ru.simplewebapp.repository.AccountsRepository;
 import ru.simplewebapp.repository.OperationsRepository;
-import ru.simplewebapp.util.exception.AtmException;
+import ru.simplewebapp.util.exception.LockedAccountException;
+import ru.simplewebapp.util.exception.NotFoundException;
+import ru.simplewebapp.util.exception.NotEnoughMoneyException;
+import ru.simplewebapp.util.exception.WrongPinException;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static ru.simplewebapp.util.exception.AtmException.ACCOUNT_WAS_LOCKED;
-import static ru.simplewebapp.util.exception.AtmException.ILLEGAL_OPERATION;
-import static ru.simplewebapp.util.exception.AtmException.WRONG_PIN;
 
 @Service("accountDetailService")
 public class AccountServiceImpl implements AccountService, UserDetailsService {
@@ -35,19 +35,25 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     }
 
     public Account getAccount(String number) {
-        return accountsRepository.getByNumber(number);
+        return accountsRepository.getByNumber(number).orElseThrow(NotFoundException::new);
     }
 
     @Transactional
-    public Account getBalance(String number) {
-        Account account = accountsRepository.getByNumber(number);
-        Operation operation = new Operation(Type.REQUEST_BALANCE, account, account.getDateTime());
-        operationsRepository.save(operation);
-        return account;
-    }
+    public Account checkAndGetAccount(String number, String pin) {
+        Account account = getAccount(number);
+        if (account.getAttempt() >= Account.MAX_ATTEMPTS) {
+            throw new LockedAccountException();
+        }
 
-    public boolean checkPresent(String number) {
-        return accountsRepository.getByNumber(number) != null;
+        if (pin.equals(account.getPin())) {
+            account.cleanWrongAttempts();
+        } else {
+            account.incrementWrongAttempt();
+            accountsRepository.save(account);
+            throw new WrongPinException();
+        }
+
+        return account;
     }
 
     @Transactional
@@ -55,7 +61,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         Account account = getAccount(number);
         Integer balance = account.getBalance();
         if (amount > balance) {
-            throw new AtmException(ILLEGAL_OPERATION);
+            throw new NotEnoughMoneyException();
         }
         account.withdraw(amount);
         account.setDateTime(LocalDateTime.now());
@@ -66,21 +72,15 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     }
 
     @Transactional
-    public Account checkAndGetAccount(String number, String pin) {
-        Account account = accountsRepository.getByNumber(number);
-        if (account.getAttempt() >= Account.MAX_ATTEMPTS) {
-            throw new AtmException(ACCOUNT_WAS_LOCKED);
-        }
-
-        if (pin.equals(account.getPin())) {
-            account.cleanWrongAttempts();
-        } else {
-            account.incrementWrongAttempt();
-            accountsRepository.save(account);
-            throw new AtmException(WRONG_PIN);
-        }
-
+    public Account getBalance(String number) {
+        Account account = getAccount(number);
+        Operation operation = new Operation(Type.REQUEST_BALANCE, account, account.getDateTime());
+        operationsRepository.save(operation);
         return account;
+    }
+
+    public void checkPresent(String number) {
+        getAccount(number);
     }
 
     /**
@@ -92,10 +92,9 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String number) throws UsernameNotFoundException {
-        Account account = accountsRepository.getByNumber(number);
-        if (account == null) {
-            throw new UsernameNotFoundException("Account " + number + " is not found");
-        }
+        Account account = accountsRepository
+                .getByNumber(number)
+                .orElseThrow(() -> new UsernameNotFoundException("Account " + number + " is not found"));
         return new AuthenticatedAccount(account);
     }
 }

@@ -12,7 +12,7 @@ public interface AccountService {
 
     Account getBalance(String number);
 
-    boolean checkPresent(String number);
+    void checkPresent(String number);
 
     Account withdraw(String number, Integer sum);
 
