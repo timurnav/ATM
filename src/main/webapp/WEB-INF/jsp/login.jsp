@@ -7,12 +7,14 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <script src="webjars/jquery/2.2.0/jquery.min.js"></script>
 
-    <script src="../../resources/js/particles/particles.js"></script>
-    <script src="../../resources/js/particles/app.js"></script>
-    <link rel="stylesheet" media="screen" href="../../resources/css/style.css">
+    <script type="text/javascript" src="webjars/noty/2.3.7/js/noty/packaged/jquery.noty.packaged.min.js"></script>
+    <script type="text/javascript" src="resources/js/particles/particles.js"></script>
+    <script type="text/javascript" src="resources/js/particles/app.js"></script>
 
     <link rel='stylesheet' href='webjars/bootstrap/3.1.0/css/bootstrap.min.css'>
-    <link rel="stylesheet" href="../../resources/css/common.css">
+    <link rel="stylesheet" media="screen" href="resources/css/style.css">
+    <link rel="stylesheet" href="resources/css/common.css">
+    <link rel="stylesheet" href="resources/css/animate.css">
 
     <title>ATM</title>
 </head>
@@ -70,8 +72,7 @@
                 if (readyToSend) {
                     sendForm();
                 } else {
-                    changeInputFields();
-                    clearField();
+                    checkCardNumber();
                 }
                 break;
             default:
@@ -82,6 +83,40 @@
                 }
         }
     });
+
+    function checkCardNumber() {
+        $.ajax({
+            type: "POST",
+            url: "card",
+            data: 'card='+$hiddenCardField.val(),
+            success: function () {
+                alert('lol');
+                changeInputFields();
+                clearField();
+            },
+            error: function () {
+                funnyNoty();
+            }
+        });
+    }
+
+    function funnyNoty() {
+        var text = '<h3>You have entered incorrect card number</h3>' +
+                '<img src="resources/images/ok.jpg" class="img-rounded" alt="OKAY" width="320" height="320">';
+        noty({
+            layout: 'center',
+            text: text,
+            theme: 'relax',
+            maxVisible: 1,
+            modal: true,
+            animation: {
+                open: 'animated rubberBand', // Animate.css class names
+                close: 'animated hinge', // Animate.css class names
+                easing: 'swing', // unavailable - no need
+                speed: 300 // unavailable - no need
+            }
+        });
+    }
 
     function changeInputFields() {
         if (readyToSend) {

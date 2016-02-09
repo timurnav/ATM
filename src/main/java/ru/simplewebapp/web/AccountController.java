@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,6 +13,7 @@ import ru.simplewebapp.AuthenticatedAccount;
 import ru.simplewebapp.model.Account;
 import ru.simplewebapp.service.AccountService;
 import ru.simplewebapp.util.AccountTO;
+import ru.simplewebapp.util.exception.NotFoundException;
 
 @RestController
 public class AccountController implements ExceptionInfoHandler {
@@ -23,10 +23,13 @@ public class AccountController implements ExceptionInfoHandler {
     AccountService service;
 
     @RequestMapping(value = "/card", method = RequestMethod.POST)
-    public ResponseEntity checkCardNumber(Model model,
-                                          @RequestParam String card) {
-        service.checkPresent(card);
-        return new ResponseEntity(HttpStatus.ACCEPTED);
+    public ResponseEntity checkCardNumber(@RequestParam String card) {
+        try {
+            service.checkPresent(card);
+            return new ResponseEntity(HttpStatus.ACCEPTED);
+        } catch (NotFoundException e) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
     }
 
     @RequestMapping(value = "/balance", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

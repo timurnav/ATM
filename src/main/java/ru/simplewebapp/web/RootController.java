@@ -4,10 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import ru.simplewebapp.AuthenticatedAccount;
 import ru.simplewebapp.service.AccountService;
 import ru.simplewebapp.util.exception.AtmException;
@@ -37,19 +35,12 @@ public class RootController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login(ModelMap model,
-                        @RequestParam(value = "error", required = false) boolean error,
-                        @RequestParam(value = "message", required = false) String message) {
+    public String login() {
 
         if (AuthenticatedAccount.unSafeGet() != null) {
             return "redirect:cabinet";
         }
 
-        if (error || message != null) {
-            model.put("error", error);
-            model.put("message", message);
-            return "failed";
-        }
         return "login";
     }
 }

@@ -7,7 +7,9 @@
     <link rel='stylesheet' href='webjars/bootstrap/3.1.0/css/bootstrap.min.css'>
     <script src="webjars/jquery/2.2.0/jquery.min.js"></script>
     <script src="webjars/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="../../resources/css/cabinet.css">
+    <script type="text/javascript" src="webjars/noty/2.3.7/js/noty/packaged/jquery.noty.packaged.min.js"></script>
+    <link rel="stylesheet" href="resources/css/animate.css">
+    <link rel="stylesheet" href="resources/css/cabinet.css">
 </head>
 <body>
 <jsp:include page="fragments/head.jsp"/>
@@ -48,7 +50,7 @@
                 </div>
                 <div class="right-block">
                     <div class="image">
-                        <img src="../../resources/images/atm_img.png" class="img-rounded" alt="Cinque Terre" width="450"
+                        <img src="resources/images/atm_img.png" class="img-rounded" alt="Cinque Terre" width="450"
                              height="320">
                     </div>
                     <div class="account-info" hidden>
@@ -83,21 +85,6 @@
                     </form>
                     <jsp:include page="fragments/keypad.jsp"/>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="okay_modal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h2 class="modal-title">Withdraw report</h2>
-            </div>
-            <div class="modal-body">
-                <h3>You don't have enough money</h3>
-                <img src="../../resources/images/ok.jpg" class="img-rounded" alt="Cinque Terre" width="450"
-                     height="320">
             </div>
         </div>
     </div>
@@ -195,13 +182,28 @@
         switch ($('#hidden_field').val().length) {
             case maxCount:
                 break;
-            case 3:
-            case 6:
-                $field.val($field.val() + ' ');
             default:
                 $field.val($field.val() + val);
                 $hiddenField.val($hiddenField.val() + val);
         }
+    }
+
+    function funnyNoty() {
+        var text = '<h3>You don\'t have enough money</h3>' +
+                '<img src="resources/images/ok.jpg" class="img-rounded" alt="OK" width="320" height="320">';
+        noty({
+            layout: 'center',
+            text: text,
+            theme: 'relax',
+            maxVisible: 1,
+            modal: true,
+            animation: {
+                open: 'animated rubberBand', // Animate.css class names
+                close: 'animated hinge', // Animate.css class names
+                easing: 'swing', // unavailable - no need
+                speed: 300 // unavailable - no need
+            }
+        });
     }
 
     function withdrawMoney() {
@@ -215,7 +217,7 @@
                     showResultOfWithdraw(val);
                 },
                 error: function () {
-                    $('#okay_modal').modal();
+                    funnyNoty();
                 }
             });
         } else {

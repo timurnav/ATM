@@ -11,6 +11,7 @@
 
     <http>
         <intercept-url pattern="favicon.ico" access="permitAll" />
+        <intercept-url pattern="/card" access="permitAll"/>
         <intercept-url pattern="/login" access="permitAll"/>
         <intercept-url pattern="/**" access="isAuthenticated()" />
         <form-login login-page="/login" default-target-url="/cabinet"
