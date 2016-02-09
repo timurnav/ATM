@@ -7,12 +7,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <script src="webjars/jquery/2.2.0/jquery.min.js"></script>
 
-    <script src="resources/js/particles/particles.js"></script>
-    <script src="resources/js/particles/app.js"></script>
-    <link rel="stylesheet" media="screen" href="resources/css/style.css">
+    <script src="../../resources/js/particles/particles.js"></script>
+    <script src="../../resources/js/particles/app.js"></script>
+    <link rel="stylesheet" media="screen" href="../../resources/css/style.css">
 
     <link rel='stylesheet' href='webjars/bootstrap/3.1.0/css/bootstrap.min.css'>
-    <link rel="stylesheet" href="resources/css/common.css">
+    <link rel="stylesheet" href="../../resources/css/common.css">
 
     <title>ATM</title>
 </head>

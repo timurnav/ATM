@@ -7,7 +7,7 @@
     <link rel='stylesheet' href='webjars/bootstrap/3.1.0/css/bootstrap.min.css'>
     <script src="webjars/jquery/2.2.0/jquery.min.js"></script>
     <script src="webjars/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="resources/css/cabinet.css">
+    <link rel="stylesheet" href="../../resources/css/cabinet.css">
 </head>
 <body>
 <jsp:include page="fragments/head.jsp"/>
@@ -32,7 +32,7 @@
                     <p align="right">Приятного дня!</p>
                 </div>
                 <div class="right-block">
-                    <img src="resources/images/atm_img.png" class="img-rounded" alt="Cinque Terre" width="450"
+                    <img src="../../resources/images/atm_img.png" class="img-rounded" alt="Cinque Terre" width="450"
                          height="320">
                 </div>
             </div>
@@ -48,7 +48,7 @@
                 </div>
                 <div class="right-block">
                     <div class="image">
-                        <img src="resources/images/atm_img.png" class="img-rounded" alt="Cinque Terre" width="450"
+                        <img src="../../resources/images/atm_img.png" class="img-rounded" alt="Cinque Terre" width="450"
                              height="320">
                     </div>
                     <div class="account-info" hidden>
@@ -87,7 +87,22 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="editRow">
+<div class="modal fade" id="okay_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h2 class="modal-title">Withdraw report</h2>
+            </div>
+            <div class="modal-body">
+                <h3>You don't have enough money</h3>
+                <img src="../../resources/images/ok.jpg" class="img-rounded" alt="Cinque Terre" width="450"
+                     height="320">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="report_modal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -198,6 +213,9 @@
                 data: 'amount=' + val + '00',
                 success: function () {
                     showResultOfWithdraw(val);
+                },
+                error: function () {
+                    $('#okay_modal').modal();
                 }
             });
         } else {
@@ -210,7 +228,7 @@
             type: "GET",
             url: "balance",
             success: function (data) {
-                $('#editRow').modal();
+                $('#report_modal').modal();
                 $('#number_report').text(data.number);
                 $('#datetime_report').text(data.dateTime);
                 $('#balance_report').text('$' + data.balance / 100);

@@ -17,7 +17,7 @@
     <mvc:resources mapping="/webjars/**" location="/webjars/"/>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-          p:prefix=""
+          p:prefix="/WEB-INF/jsp/"
           p:suffix=".jsp"/>
 
 
