@@ -153,8 +153,8 @@
                 success: function () {
                     location.href = 'cabinet';
                 },
-                error: function () {
-                    funnyNoty('Pin code is incorrect');
+                error: function (data) {
+                    funnyNoty(data);
                 }
             });
         } else {

@@ -1,8 +1,11 @@
 package ru.simplewebapp.model;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import ru.simplewebapp.util.exception.LockedAccountException;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
@@ -82,12 +85,12 @@ public class Account extends BaseEntity{
         return attempt;
     }
 
-    public void cleanWrongAttempts() {
+    public void resetFailAttempts() {
         attempt = 0;
     }
 
-    public void incrementWrongAttempt() {
-        attempt++;
+    public int incrementFailAttempt() {
+        return MAX_ATTEMPTS - attempt++;
     }
 
     @Override
@@ -97,5 +100,12 @@ public class Account extends BaseEntity{
                 ", balance=" + balance +
                 ", dateTime=" + dateTime +
                 '}';
+    }
+
+    public Account ifHasAttempts() throws LockedAccountException {
+        if (getAttempt() < MAX_ATTEMPTS) {
+            return this;
+        }
+        throw new LockedAccountException();
     }
 }

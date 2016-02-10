@@ -15,6 +15,9 @@ import ru.simplewebapp.service.AccountService;
 import ru.simplewebapp.util.AccountTO;
 import ru.simplewebapp.util.exception.NotFoundException;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @RestController
 public class AccountController {
 
@@ -33,12 +36,18 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/card", method = RequestMethod.GET)
-    public ResponseEntity checkPincode(@RequestParam(value = "error", required = false) boolean error) {
+    public ResponseEntity checkPincode(HttpServletRequest request,
+            @RequestParam(value = "error", required = false) boolean error) {
+
         if (error) {
-            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+            HttpSession session = request.getSession();
+            Exception exception = (Exception) session.getAttribute("SPRING_SECURITY_LAST_EXCEPTION");
+            String message = exception.getMessage();
+            return new ResponseEntity(message, HttpStatus.UNAUTHORIZED);
         }
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
+
 
     @RequestMapping(value = "/balance", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public AccountTO get() {

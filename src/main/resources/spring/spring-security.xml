@@ -21,7 +21,12 @@
         <csrf disabled="true"/>
     </http>
 
+    <beans:bean id="authenticationProvider"
+                class="ru.simplewebapp.web.LimitLoginAuthenticationProvider">
+        <beans:property name="userDetailsService" ref="accountDetailService" />
+    </beans:bean>
+
     <authentication-manager>
-        <authentication-provider user-service-ref="accountDetailService"/>
+        <authentication-provider ref="authenticationProvider"/>
     </authentication-manager>
 </beans:beans>

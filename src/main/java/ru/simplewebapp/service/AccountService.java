@@ -16,6 +16,8 @@ public interface AccountService {
 
     Account withdraw(String number, Integer sum);
 
-    Account checkAndGetAccount(String number, String pin);
+    int incrementFailAttempt(String number);
+
+    void resetFailAttempts(String number);
 
 }

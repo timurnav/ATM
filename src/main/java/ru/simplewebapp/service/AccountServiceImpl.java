@@ -12,10 +12,8 @@ import ru.simplewebapp.model.Operation;
 import ru.simplewebapp.model.Type;
 import ru.simplewebapp.repository.AccountsRepository;
 import ru.simplewebapp.repository.OperationsRepository;
-import ru.simplewebapp.util.exception.LockedAccountException;
 import ru.simplewebapp.util.exception.NotFoundException;
 import ru.simplewebapp.util.exception.NotEnoughMoneyException;
-import ru.simplewebapp.util.exception.WrongPinException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,25 +33,25 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     }
 
     public Account getAccount(String number) {
-        return accountsRepository.getByNumber(number).orElseThrow(NotFoundException::new);
+        Account account = accountsRepository
+                .getByNumber(number)
+                .orElseThrow(NotFoundException::new);
+        return account.ifHasAttempts();
     }
 
     @Transactional
-    public Account checkAndGetAccount(String number, String pin) {
+    public void resetFailAttempts(String number) {
         Account account = getAccount(number);
-        if (account.getAttempt() >= Account.MAX_ATTEMPTS) {
-            throw new LockedAccountException();
-        }
+        account.resetFailAttempts();
+        accountsRepository.save(account);
+    }
 
-        if (pin.equals(account.getPin())) {
-            account.cleanWrongAttempts();
-        } else {
-            account.incrementWrongAttempt();
-            accountsRepository.save(account);
-            throw new WrongPinException();
-        }
-
-        return account;
+    @Transactional
+    public int incrementFailAttempt(String number) {
+        Account account = getAccount(number);
+        int attempts = account.incrementFailAttempt();
+        accountsRepository.save(account);
+        return attempts;
     }
 
     @Transactional

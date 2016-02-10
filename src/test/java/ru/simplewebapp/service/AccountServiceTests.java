@@ -13,7 +13,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 import ru.simplewebapp.model.Account;
 import ru.simplewebapp.util.exception.AtmException;
 
@@ -75,6 +74,7 @@ public class AccountServiceTests {
         Account account = accountService.getAccount(ACCOUNT1_NUMBER);
         accountService.withdraw(ACCOUNT1_NUMBER, account.getBalance() + 1);
     }
+/*
 
     @Test
     public void testRejectAfterWrongPinAttempts() throws Exception {
@@ -117,6 +117,7 @@ public class AccountServiceTests {
             LOG.info("Wrong pin attempt during test 5 - should be LockedAccountException thrown");
         }
     }
+*/
 
 
 }
