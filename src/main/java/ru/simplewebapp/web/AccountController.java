@@ -16,7 +16,7 @@ import ru.simplewebapp.util.AccountTO;
 import ru.simplewebapp.util.exception.NotFoundException;
 
 @RestController
-public class AccountController implements ExceptionInfoHandler {
+public class AccountController {
 
     @Autowired
     @Qualifier(value = "accountDetailService")
@@ -30,6 +30,14 @@ public class AccountController implements ExceptionInfoHandler {
         } catch (NotFoundException e) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @RequestMapping(value = "/card", method = RequestMethod.GET)
+    public ResponseEntity checkPincode(@RequestParam(value = "error", required = false) boolean error) {
+        if (error) {
+            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+        }
+        return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(value = "/balance", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

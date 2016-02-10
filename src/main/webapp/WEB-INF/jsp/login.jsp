@@ -25,6 +25,7 @@
 <div class="container" id="thin">
 
     <div class="main_frame">
+        <input type="hidden" name="username" id="error" value="">
 
         <h2 class="form-signin-heading">Enter card number</h2>
         <form id="form" class="form-signin" action="spring_security_check" method="POST">
@@ -38,7 +39,6 @@
         <jsp:include page="fragments/keypad.jsp"/>
     </div>
 </div>
-
 
 
 <script type="text/javascript">
@@ -88,20 +88,19 @@
         $.ajax({
             type: "POST",
             url: "card",
-            data: 'card='+$hiddenCardField.val(),
+            data: 'card=' + $hiddenCardField.val(),
             success: function () {
-                alert('lol');
                 changeInputFields();
                 clearField();
             },
             error: function () {
-                funnyNoty();
+                funnyNoty('I can\'t find your card number in our warehouse');
             }
         });
     }
 
-    function funnyNoty() {
-        var text = '<h3>You have entered incorrect card number</h3>' +
+    function funnyNoty(message) {
+        var text = '<h3>' + message + '</h3>' +
                 '<img src="resources/images/ok.jpg" class="img-rounded" alt="OKAY" width="320" height="320">';
         noty({
             layout: 'center',
@@ -110,8 +109,8 @@
             maxVisible: 1,
             modal: true,
             animation: {
-                open: 'animated rubberBand', // Animate.css class names
-                close: 'animated hinge', // Animate.css class names
+                open: 'animated zoomIn', // Animate.css class names
+                close: 'animated zoomOut', // Animate.css class names
                 easing: 'swing', // unavailable - no need
                 speed: 300 // unavailable - no need
             }
@@ -147,10 +146,21 @@
 
     function sendForm() {
         if ($hiddenPinField.val().length == maxPinCount) {
-            $('#form').submit();
+            $.ajax({
+                type: "POST",
+                url: "spring_security_check",
+                data: $("#form").serialize(),
+                success: function () {
+                    location.href = 'cabinet';
+                },
+                error: function () {
+                    funnyNoty('Pin code is incorrect');
+                }
+            });
         } else {
             alert('Expected 4 numbers');
         }
+
     }
 
     function addCardNumberIfNecessary(val) {
