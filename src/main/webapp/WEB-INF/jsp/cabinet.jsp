@@ -188,8 +188,8 @@
         }
     }
 
-    function funnyNoty() {
-        var text = '<h3>You don\'t have enough money</h3>' +
+    function funnyNoty(message) {
+        var text = '<h3>' + message + '</h3>' +
                 '<img src="resources/images/ok.jpg" class="img-rounded" alt="OK" width="320" height="320">';
         noty({
             layout: 'center',
@@ -217,11 +217,11 @@
                     showResultOfWithdraw(val);
                 },
                 error: function () {
-                    funnyNoty();
+                    funnyNoty('You don\'t have enough money');
                 }
             });
         } else {
-            alert('There are no such denominations in ATM.\nThe smallest denomination is $10');
+            funnyNoty('There are no such denominations in ATM.\nThe smallest denomination is $10');
         }
     }
 
