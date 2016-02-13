@@ -73,7 +73,20 @@ body {
     width: 59%;
 
 }
+@media (max-width: 750px)  {
+    .keypad button{
+        font-size: 150%;
+    }
 
+    #thin{
+        width: 90%;
+    }
+
+    .container {
+        top: 30%;
+        left: 25%;
+    }
+}
 .error, .message {
     padding: 10px;
     margin-bottom: 20px;
@@ -91,17 +104,3 @@ body {
     border: 1px solid #9feba6;
 }
 
-@media (max-width: 750px)  {
-    .keypad button{
-        font-size: 150%;
-    }
-
-    #thin{
-        width: 90%;
-    }
-
-    .container {
-        top: 30%;
-        left: 25%;
-    }
-}

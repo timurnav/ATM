@@ -12,6 +12,7 @@
     <script type="text/javascript"
             src="<c:url value="/webjars/noty/2.3.7/js/noty/packaged/jquery.noty.packaged.min.js"/>"></script>
     <link rel="stylesheet" href="<c:url value="/webjars/animate.css/3.3.0/animate.min.css"/>">
+    <link rel="stylesheet" href="<c:url value="/resources/css/cabinet.css"/>">
 </head>
 <body>
 <jsp:include page="fragments/head.jsp"/>
@@ -84,7 +85,7 @@
                                 </div>
 
 
-                                <div class="account-info col-sm-12" hidden>
+                                <div class="account-info" hidden>
                                     <%--<jsp:useBean id="account" type="ru.simplewebapp.model.Account" scope="request"/>--%>
                                     <div class="account_info">
                                         <spring:message key="app.card"/>
@@ -127,7 +128,6 @@
 
                 </div>
             </div>
-
 
         </div>
     </div>

@@ -24,9 +24,15 @@
     <beans:bean id="authenticationProvider"
                 class="ru.simplewebapp.web.LimitLoginAuthenticationProvider">
         <beans:property name="userDetailsService" ref="accountDetailService" />
+
     </beans:bean>
+    <beans:bean class="ru.simplewebapp.util.PasswordUtil" id="passwordEncoder" factory-method="getPasswordEncoder"/>
 
     <authentication-manager>
-        <authentication-provider ref="authenticationProvider"/>
+        <authentication-provider user-service-ref="accountDetailService">
+            <password-encoder ref="passwordEncoder"/>
+
+        </authentication-provider>
+
     </authentication-manager>
 </beans:beans>
