@@ -1,10 +1,12 @@
 package ru.simplewebapp.util.exception;
 
-public class NotFoundException extends AtmException {
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-    public static final String NO_DATA_FOUND = "No data found";
-
-    public NotFoundException() {
-        super(NO_DATA_FOUND);
+@ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "No data found")  // 404
+public class NotFoundException extends RuntimeException {
+    public NotFoundException(String message) {
+        super(message);
     }
 }
+

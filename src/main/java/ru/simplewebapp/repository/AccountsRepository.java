@@ -17,6 +17,7 @@ public interface AccountsRepository extends JpaRepository<Account, Integer> {
     Account getOne(Integer integer);
 
     @Override
+    @Transactional
     void delete(Integer integer);
 
     @Override

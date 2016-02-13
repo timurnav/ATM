@@ -14,6 +14,7 @@ public interface OperationsRepository extends JpaRepository<Operation, Integer> 
     Operation getOne(Integer integer);
 
     @Override
+    @Transactional
     void delete(Integer integer);
 
     @Override

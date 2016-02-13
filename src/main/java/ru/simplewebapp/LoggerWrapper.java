@@ -2,6 +2,7 @@ package ru.simplewebapp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.simplewebapp.util.exception.NotFoundException;
 
 /**
  * User: gkislin
@@ -68,5 +69,9 @@ public class LoggerWrapper {
     public UnsupportedOperationException getUnsupportedOperationException(String msg) {
         logger.error(msg);
         return new UnsupportedOperationException(msg);
+    }
+    public NotFoundException getNotFoundException(String reason) {
+        logger.error(reason);
+        return new NotFoundException(reason);
     }
 }
