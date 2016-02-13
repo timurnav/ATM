@@ -1,6 +1,7 @@
 package ru.simplewebapp.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.simplewebapp.model.Account;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public interface AccountsRepository extends JpaRepository<Account, Integer> {
     void delete(Integer integer);
 
     @Override
+    @Transactional
     Account save(Account entity);
 }
 
