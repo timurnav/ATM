@@ -1,15 +1,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="spring" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
-    <title>Operations</title>
-    <link rel='stylesheet' href='webjars/bootstrap/3.1.0/css/bootstrap.min.css'>
-    <script src="webjars/jquery/2.2.0/jquery.min.js"></script>
-    <script src="webjars/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="webjars/noty/2.3.7/js/noty/packaged/jquery.noty.packaged.min.js"></script>
-    <link rel="stylesheet" href="resources/css/animate.css">
-    <link rel="stylesheet" href="resources/css/cabinet.css">
+    <title><spring:message key="app.operations"/></title>
+    <link rel='stylesheet' href='<c:url value="/webjars/bootstrap/3.1.0/css/bootstrap.min.css"/>'>
+    <link rel='stylesheet' href='<c:url value="/webjars/bootstrap/3.1.0/css/bootstrap-theme.min.css"/>'>
+    <script src="<c:url value="/webjars/jquery/2.2.0/jquery.min.js"/>"></script>
+    <script src="<c:url value="/webjars/bootstrap/3.1.0/js/bootstrap.min.js"/>"></script>
+    <script type="text/javascript"
+            src="<c:url value="/webjars/noty/2.3.7/js/noty/packaged/jquery.noty.packaged.min.js"/>"></script>
+    <link rel="stylesheet" href="<c:url value="/webjars/animate.css/3.3.0/animate.min.css"/>">
 </head>
 <body>
 <jsp:include page="fragments/head.jsp"/>
@@ -17,98 +19,138 @@
     <div class="container">
         <br>
         <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#home_tab">Home</a></li>
-            <li><a data-toggle="tab" href="#balance_tab" id="balance-tab-button">Balance</a></li>
-            <li><a data-toggle="tab" href="#withdraw_tab">Withdraw</a></li>
+            <li class="active"><a data-toggle="tab" href="#home_tab"><spring:message key="app.home"/> </a></li>
+            <li><a data-toggle="tab" href="#balance_tab" id="balance-tab-button"><spring:message key="app.balance"/></a>
+            </li>
+            <li><a data-toggle="tab" href="#withdraw_tab"><spring:message key="app.withdraw"/> </a></li>
+            <li role="presentation" class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                   aria-expanded="false">
+                    ${pageContext.response.locale} <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a onclick="show('en')">English</a></li>
+                    <li><a onclick="show('ru')">Русский</a></li>
+                </ul>
+            </li>
         </ul>
 
-        <div class="tab-content">
-            <div id="home_tab" class="tab-pane fade in active">
-                <div class="left-block">
-                    <h3>Добро пожаловать в интернет-банкинг вашего любимого банка</h3>
-                    <p>Мы с большим удовольствием наживаемся на ваших деньгах изо дня в день, спасибо что вы выбрали
-                        именно нас!</p>
-                    <p>Для того чтобы воспользоваться нашими услугами придется поводить мышкой по экрану и покликать.
-                        Чтобы проверить насколько жалок баланс вашего счета вам нужно перейти на вкладку Balance, чтобы
-                        снять наличность с карты придется перейти на вкладку Withdraw</p>
-                    <p align="right">Приятного дня!</p>
-                </div>
-                <div class="right-block">
-                    <img src="../../resources/images/atm_img.png" class="img-rounded" alt="Cinque Terre" width="450"
-                         height="320">
-                </div>
-            </div>
-            <div id="balance_tab" class="tab-pane fade">
-                <div class="left-block">
-                    <button type="button" id="show_balance_button" class="btn btn-info btn-lg image">Show account info
-                    </button>
-                    <div class="account-info" hidden>
-                        <button type="button" id="show_image" class="btn btn-info btn-lg account_info">
-                            Return that beautiful picture
-                        </button>
-                    </div>
-                </div>
-                <div class="right-block">
-                    <div class="image">
-                        <img src="resources/images/atm_img.png" class="img-rounded" alt="Cinque Terre" width="450"
-                             height="320">
-                    </div>
-                    <div class="account-info" hidden>
-                        <%--<jsp:useBean id="account" type="ru.simplewebapp.model.Account" scope="request"/>--%>
-                        <div class="account_info">
-                            Your card number is
-                            <span id="number"></span><br>
-                            Last transaction time is
-                            <span id="datetime"></span><br>
-                            Your balance is
-                            <span id="balance"></span><br>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="withdraw_tab" class="tab-pane fade">
-                <div class="left-block">
-                    To withdraw cash input required value in the input field on right
-                    or click a corresponding number below
-                    <c:forEach var="num" items="<%=new int[]{20, 50, 100, 200, 500, 1000}%>">
-                        <div class="keys">
-                            <button type="button" class="btn btn-info btn-lg">${num}</button>
-                        </div>
-                    </c:forEach>
-                </div>
-                <div class="right-block">
-                    <form id="form" class="form-signin" action="withdraw" method="POST">
-                        <input type="hidden" name="card" value="${card}">
-                        <input type="hidden" id="hidden_field" name="amount">
-                        <input type=text id="visible_field" class="form-control"
-                               placeholder="0" required readonly>
-                    </form>
-                    <jsp:include page="fragments/keypad.jsp"/>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="report_modal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h2 class="modal-title">Withdraw report</h2>
-            </div>
-            <div class="modal-body">
-                <span id="number_report"></span><br>
-                Transaction time is
-                <span id="datetime_report"></span><br>
-                Withdrawn from your account
-                <span id="withdrawn_report"></span><br>
-                Your balance is
-                <span id="balance_report"></span><br>
-            </div>
-        </div>
-    </div>
-</div>
+        <div class="row">
 
+
+            <div class="tab-content">
+                <div id="home_tab" class="tab-pane fade in active">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="left-block col-md-6 col-sm-12">
+                                <h3><spring:message key="app.welcome"/></h3>
+                                <p><spring:message key="app.thanks"/></p>
+                                <p><spring:message key="app.instructions"/></p>
+                                <p align="right"><spring:message key="app.goodbye"/></p>
+                            </div>
+                            <div class="right-block col-md-6 col-sm-12">
+                                <img src="<c:url value="/resources/images/atm_img.png"/>"
+                                     class="img-rounded img-responsive"
+                                     alt="Cinque Terre" width="450"
+                                     height="320">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div id="balance_tab" class="tab-pane fade">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="left-block col-md-6 col-sm-12">
+                                <button type="button" id="show_balance_button" class="btn btn-info btn-lg col-sm-12">
+                                    <spring:message
+                                            key="app.account_info"/>
+                                </button>
+
+                                <div class="account-info" hidden>
+                                    <button type="button" id="show_image" class="btn btn-info btn-lg btn-block">
+                                        <spring:message key="app.picture"/>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="right-block col-md-6 col-sm-12">
+                                <div class="image">
+                                    <img src="<c:url value="/resources/images/atm_img.png"/>"
+                                         class="img-rounded img-responsive"
+                                         alt="Cinque Terre"
+                                         width="450"
+                                         height="320">
+                                </div>
+
+
+                                <div class="account-info col-sm-12" hidden>
+                                    <%--<jsp:useBean id="account" type="ru.simplewebapp.model.Account" scope="request"/>--%>
+                                    <div class="account_info">
+                                        <spring:message key="app.card"/>
+                                        <span id="number"></span><br>
+                                        <spring:message key="app.transaction"/>
+                                        <span id="datetime"></span><br>
+                                        <spring:message key="app.balance_equals"/>
+                                        <span id="balance"></span><br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div id="withdraw_tab" class="tab-pane fade">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="left-block col-md-6 col-sm-12">
+                                <spring:message key="app.withdraw_condition"/>
+                                <c:forEach var="num" items="<%=new int[]{20, 50, 100, 200, 500, 1000}%>">
+                                    <div class="keys col-md-12 col-sm-12">
+                                        <button type="button"
+                                                class="btn btn-info btn-lg col-md-12 col-sm-12">${num}</button>
+                                    </div>
+                                </c:forEach>
+                            </div>
+                            <div class="right-block col-md-6 col-sm-12">
+                                <form id="form" class="form-signin" action="withdraw" method="POST">
+                                    <input type="hidden" name="card" value="${card}">
+                                    <input type="hidden" id="hidden_field" name="amount">
+                                    <input type=text id="visible_field" class="form-control"
+                                           placeholder="0" required readonly>
+                                </form>
+                                <jsp:include page="fragments/keypad.jsp"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="modal fade" id="report_modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h2 class="modal-title"><spring:message key="app.report"/></h2>
+                </div>
+                <div class="modal-body">
+                    <span id="number_report"></span><br>
+                    <spring:message key="app.transaction_time"/>
+                    <span id="datetime_report"></span><br>
+                    <spring:message key="app.withdraw_from_account"/>
+                    <span id="withdrawn_report"></span><br>
+                    <spring:message key="app.balance_equals"/>
+                    <span id="balance_report"></span><br>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 <script>
 
@@ -190,7 +232,7 @@
 
     function funnyNoty(message) {
         var text = '<h3>' + message + '</h3>' +
-                '<img src="resources/images/ok.jpg" class="img-rounded" alt="OK" width="320" height="320">';
+                '<img src="<c:url value="/resources/images/ok.jpg"/>" class="img-rounded" alt="OK" width="320" height="320">';
         noty({
             layout: 'center',
             text: text,
@@ -239,5 +281,11 @@
         });
     }
 
+</script>
+
+<script>
+    function show(lang) {
+        window.location.href = window.location.href.split('?')[0] + '?lang=' + lang;
+    }
 </script>
 </html>

@@ -5,16 +5,18 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <script src="webjars/jquery/2.2.0/jquery.min.js"></script>
+    <script src="<c:url value="/webjars/jquery/2.2.0/jquery.min.js"/>"></script>
 
-    <script type="text/javascript" src="webjars/noty/2.3.7/js/noty/packaged/jquery.noty.packaged.min.js"></script>
-    <script type="text/javascript" src="resources/js/particles/particles.js"></script>
-    <script type="text/javascript" src="resources/js/particles/app.js"></script>
+    <script type="text/javascript" src="<c:url value="/webjars/noty/2.3.7/js/noty/packaged/jquery.noty.packaged.min.js"/>"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/particles/particles.js"/>"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/particles/app.js"/>"></script>
 
-    <link rel='stylesheet' href='webjars/bootstrap/3.1.0/css/bootstrap.min.css'>
-    <link rel="stylesheet" media="screen" href="resources/css/style.css">
-    <link rel="stylesheet" href="resources/css/common.css">
-    <link rel="stylesheet" href="resources/css/animate.css">
+    <link rel='stylesheet' href='<c:url value="/webjars/bootstrap/3.1.0/css/bootstrap.min.css"/>'>
+    <link rel='stylesheet' href='<c:url value="/webjars/bootstrap/3.1.0/css/bootstrap-theme.min.css"/>'>
+    <link rel='stylesheet' href='<c:url value="/webjars/animate.css/3.3.0/animate.min.css"/>'>
+    <link rel="stylesheet" media="screen" href="<c:url value="/resources/css/style.css"/>">
+    <link rel="stylesheet" href="<c:url value="/resources/css/common.css"/>">
+
 
     <title>ATM</title>
 </head>
@@ -101,7 +103,7 @@
 
     function funnyNoty(message) {
         var text = '<h3>' + message + '</h3>' +
-                '<img src="resources/images/ok.jpg" class="img-rounded" alt="OKAY" width="320" height="320">';
+                '<img src="<c:url value="/resources/images/ok.jpg"/>" class="img-rounded" alt="OKAY" width="320" height="320">';
         noty({
             layout: 'center',
             text: text,

@@ -17,8 +17,9 @@ body {
 .container {
     margin: auto;
     background-color: rgba(255, 242, 0, 0.39);
-    width: 65%;
-    height: 100%;
+    /*width: 65%;*/
+    /*height: 100%;*/
+    overflow: hidden;
 }
 
 .main_frame {
@@ -28,7 +29,7 @@ body {
 }
 
 .form-signin, .keypad, .keys {
-    max-width: 80%;
+    /*max-width: 80%;*/
     padding: 1%;
     margin: 0 auto;
 }
@@ -56,14 +57,14 @@ body {
 
 .left-block {
     padding-top: 2%;
-    float: left;
-    width: 40%;
+    /*float: left;*/
+    /*width: 40%;*/
 }
 
 .right-block {
     padding-top: 2%;
-    float: right;
-    width: 59%;
+    /*float: right;*/
+    /*width: 59%;*/
 
 }
 

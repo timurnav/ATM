@@ -71,7 +71,9 @@
                 <executions>
                     <execution>
                         <phase>package</phase>
-                        <goals><goal>copy</goal></goals>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
@@ -263,6 +265,8 @@
             <version>19.0</version>
         </dependency>
 
+
+        <!--WebJars-->
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>bootstrap</artifactId>
@@ -279,6 +283,18 @@
             <groupId>org.webjars.bower</groupId>
             <artifactId>noty</artifactId>
             <version>2.3.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>materializecss</artifactId>
+            <version>0.97.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>animate.css</artifactId>
+            <version>3.3.0</version>
         </dependency>
 
         <dependency>
