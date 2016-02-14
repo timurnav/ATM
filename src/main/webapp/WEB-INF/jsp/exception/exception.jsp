@@ -4,10 +4,10 @@
 <html>
 <head>
     <title>Operations</title>
-    <link rel='stylesheet' href='webjars/bootstrap/3.1.0/css/bootstrap.min.css'>
-    <script src="webjars/jquery/2.2.0/jquery.min.js"></script>
-    <script src="webjars/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="resources/css/cabinet.css">
+    <link rel='stylesheet' href='<c:url value="/webjars/bootstrap/3.1.0/css/bootstrap.min.css"/>'>
+    <script src="<c:url value="/webjars/jquery/2.2.0/jquery.min.js"/>"></script>
+    <script src="<c:url value="/webjars/bootstrap/3.1.0/js/bootstrap.min.js"/>"></script>
+    <link rel="stylesheet" href="<c:url value="/resources/css/cabinet.css"/>">
 </head>
 <body>
 
