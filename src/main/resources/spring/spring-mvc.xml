@@ -24,7 +24,7 @@
 <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
       p:cacheSeconds="60"
       p:defaultEncoding="UTF-8"
-      p:basenames="file:///#{systemEnvironment['ATM_ROOT']}/config/messages/app"
+      p:basenames="file:////home/timurnav/javaApps/ATM/config/messages/app"
       p:fallbackToSystemLocale="false"/>
 
     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">

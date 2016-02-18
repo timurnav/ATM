@@ -64,11 +64,13 @@
                     <div class="row">
                         <div class="col-md-12 col-sm-12">
                             <div class="left-block col-md-6 col-sm-12">
-                                <button type="button" id="show_balance_button" class="btn btn-info btn-lg col-sm-12">
-                                    <spring:message
-                                            key="app.account_info"/>
-                                </button>
-
+                                <div class="image">
+                                    <button type="button" id="show_balance_button"
+                                            class="btn btn-info btn-lg col-sm-12">
+                                        <spring:message
+                                                key="app.account_info"/>
+                                    </button>
+                                </div>
                                 <div class="account-info" hidden>
                                     <button type="button" id="show_image" class="btn btn-info btn-lg btn-block">
                                         <spring:message key="app.picture"/>
@@ -86,7 +88,6 @@
 
 
                                 <div class="account-info" hidden>
-                                    <%--<jsp:useBean id="account" type="ru.simplewebapp.model.Account" scope="request"/>--%>
                                     <div class="account_info">
                                         <spring:message key="app.card"/>
                                         <span id="number"></span><br>

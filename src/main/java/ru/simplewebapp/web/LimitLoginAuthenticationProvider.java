@@ -8,12 +8,18 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import ru.simplewebapp.service.AccountService;
+import ru.simplewebapp.util.PasswordUtil;
 
 @Component("authenticationProvider")
 public class LimitLoginAuthenticationProvider extends DaoAuthenticationProvider {
 
     @Autowired
     AccountService accountService;
+
+    public LimitLoginAuthenticationProvider() {
+        super();
+        setPasswordEncoder(PasswordUtil.getPasswordEncoder());
+    }
 
     @Autowired
     @Override
