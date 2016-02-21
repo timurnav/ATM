@@ -1,6 +1,12 @@
 DELETE FROM OPERATIONS;
 DELETE FROM ACCOUNTS;
+DELETE FROM USERS;
 ALTER SEQUENCE global_seq RESTART WITH 100000;
+
+INSERT INTO users (name, email, password, role) VALUES
+  ('User', 'user@ya.ru', 'user', 'user'),
+  ('Admin', 'admin@ya.ru', 'admin', 'admin');
+
 
 INSERT INTO ACCOUNTS (number, pin, balance, attempt, date_time) VALUES
   (1111111111111111, '$2a$10$0zgCE1V1JrHr2JfbD6fhqeVN/dY1VWl4m6TLsOx1BeaSX1cGb/IwW', 1111111100, 0, '2015-05-30 10:00:00'),

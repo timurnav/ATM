@@ -3,9 +3,7 @@ package ru.simplewebapp.model;
 import org.hibernate.validator.constraints.NotEmpty;
 import ru.simplewebapp.util.exception.LockedAccountException;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -30,6 +28,11 @@ public class Account extends BaseEntity{
 
     @Column(name = "date_time", nullable = false)
     private LocalDateTime dateTime;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
 
     public Account() {
     }
@@ -107,5 +110,13 @@ public class Account extends BaseEntity{
             return this;
         }
         throw new LockedAccountException();
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

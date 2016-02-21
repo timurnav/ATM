@@ -1,17 +1,33 @@
-DROP TABLE IF EXISTS OPERATIONS;
-DROP TABLE IF EXISTS ACCOUNTS;
-DROP SEQUENCE IF EXISTS GLOBAL_SEQ;
+DROP TABLE IF EXISTS operations;
+DROP TABLE IF EXISTS accounts;
+DROP TABLE IF EXISTS users;
 
-CREATE SEQUENCE GLOBAL_SEQ START 100000;
+DROP SEQUENCE IF EXISTS global_seq;
+
+CREATE SEQUENCE global_seq START 100000;
+
+CREATE TABLE users
+(
+  id       INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+  email    VARCHAR      NOT NULL,
+  name     VARCHAR(255) NOT NULL,
+  password VARCHAR      NOT NULL,
+  role    VARCHAR(10)  NOT NULL,
+  enabled    BOOL DEFAULT TRUE
+
+);
+CREATE UNIQUE INDEX users_unique_email_idx ON users (email);
 
 CREATE TABLE accounts
 (
   id        INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+  user_id INTEGER DEFAULT 0  NOT NULL,
   number    VARCHAR           NOT NULL,
   pin       VARCHAR           NOT NULL,
   balance   INTEGER DEFAULT 0 NOT NULL,
   attempt   INTEGER DEFAULT 0 NOT NULL,
-  date_time TIMESTAMP           DEFAULT now()
+  date_time TIMESTAMP           DEFAULT now(),
+  FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
 CREATE TABLE operations
@@ -21,6 +37,5 @@ CREATE TABLE operations
   amount     NUMERIC DEFAULT 0  NOT NULL,
   account_id INTEGER DEFAULT 0  NOT NULL,
   opt_type   VARCHAR            NOT NULL,
-  FOREIGN KEY (account_id) REFERENCES ACCOUNTS (id) ON DELETE CASCADE
+  FOREIGN KEY (account_id) REFERENCES accounts (id) ON DELETE CASCADE
 );
-
