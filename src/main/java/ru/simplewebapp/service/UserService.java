@@ -5,9 +5,6 @@ import ru.simplewebapp.util.exception.NotFoundException;
 
 import java.util.List;
 
-/**
- * Created by Maria on 13.02.2016.
- */
 public interface UserService {
     User save(User user);
 

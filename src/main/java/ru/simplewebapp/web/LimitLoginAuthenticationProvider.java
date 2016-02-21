@@ -33,12 +33,11 @@ public class LimitLoginAuthenticationProvider extends DaoAuthenticationProvider 
 
         try {
             Authentication auth = super.authenticate(authentication);
-            //if reach here, means login success, else an exception will be thrown
             accountService.resetFailAttempts(authentication.getName());
             return auth;
         } catch (BadCredentialsException e) {
-            //invalid login, update to user_attempts
-            int attempts = accountService.incrementFailAttempt(authentication.getName());
+            int attempts = accountService
+                    .incrementFailAttempt(authentication.getName());
 
             String message = String.format("" +
                     "%d attempt%s left before your account will be blocked",

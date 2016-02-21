@@ -1,15 +1,10 @@
 package ru.simplewebapp.model;
 
-import org.hibernate.annotations.*;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OrderBy;
-import javax.persistence.Table;
 import java.util.List;
 
 
@@ -25,7 +20,7 @@ public class User extends BaseEntity{
     @NotEmpty
     protected String email;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "name", nullable = false)
     @NotEmpty
     protected String name;
 

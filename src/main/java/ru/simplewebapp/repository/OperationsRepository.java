@@ -1,23 +1,10 @@
 package ru.simplewebapp.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Repository;
 import ru.simplewebapp.model.Operation;
 
-import java.util.List;
-
+@Repository
 public interface OperationsRepository extends JpaRepository<Operation, Integer> {
-    @Override
-    List<Operation> findAll();
 
-    @Override
-    Operation getOne(Integer integer);
-
-    @Override
-    @Transactional
-    void delete(Integer integer);
-
-    @Override
-    @Transactional
-    Operation save(Operation entity);
 }

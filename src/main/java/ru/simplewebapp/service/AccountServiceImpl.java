@@ -12,8 +12,8 @@ import ru.simplewebapp.model.Operation;
 import ru.simplewebapp.model.Type;
 import ru.simplewebapp.repository.AccountsRepository;
 import ru.simplewebapp.repository.OperationsRepository;
-import ru.simplewebapp.util.exception.NotFoundException;
 import ru.simplewebapp.util.exception.NotEnoughMoneyException;
+import ru.simplewebapp.util.exception.NotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,7 +35,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     public Account getAccount(String number) {
         Account account = accountsRepository
                 .getByNumber(number)
-                .orElseThrow(NotFoundException::new);
+                .orElseThrow(() -> new NotFoundException("Not found card with number " + number));
         return account.ifHasAttempts();
     }
 

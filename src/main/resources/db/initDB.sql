@@ -12,8 +12,8 @@ CREATE TABLE users
   email    VARCHAR      NOT NULL,
   name     VARCHAR(255) NOT NULL,
   password VARCHAR      NOT NULL,
-  role    VARCHAR(10)  NOT NULL,
-  enabled    BOOL DEFAULT TRUE
+  role     VARCHAR(10)  NOT NULL,
+  enabled  BOOL                DEFAULT TRUE
 
 );
 CREATE UNIQUE INDEX users_unique_email_idx ON users (email);
@@ -21,11 +21,11 @@ CREATE UNIQUE INDEX users_unique_email_idx ON users (email);
 CREATE TABLE accounts
 (
   id        INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-  user_id INTEGER DEFAULT 0  NOT NULL,
-  number    VARCHAR           NOT NULL,
-  pin       VARCHAR           NOT NULL,
-  balance   INTEGER DEFAULT 0 NOT NULL,
-  attempt   INTEGER DEFAULT 0 NOT NULL,
+  user_id   INTEGER DEFAULT 0  NOT NULL,
+  number    VARCHAR            NOT NULL,
+  pin       VARCHAR            NOT NULL,
+  balance   INTEGER DEFAULT 0  NOT NULL,
+  attempt   INTEGER DEFAULT 0  NOT NULL,
   date_time TIMESTAMP           DEFAULT now(),
   FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );

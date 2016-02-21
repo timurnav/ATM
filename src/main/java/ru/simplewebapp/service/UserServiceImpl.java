@@ -1,7 +1,6 @@
 package ru.simplewebapp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.simplewebapp.model.User;
@@ -12,13 +11,9 @@ import ru.simplewebapp.util.exception.NotFoundException;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Created by Maria on 13.02.2016.
- */
 @Service("userService")
 public class UserServiceImpl implements UserService {
 
-    @Qualifier("userRepository")
     @Autowired
     private UserRepository repository;
 
@@ -30,7 +25,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(int id) throws NotFoundException {
         ExceptionUtil.check(repository.delete(id), id);
-
     }
 
     @Override
